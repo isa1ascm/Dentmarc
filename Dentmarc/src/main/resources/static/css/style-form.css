@@ -1,0 +1,60 @@
+/* Login y Registro (pantalla dividida) */
+.auth-container { display: grid; grid-template-columns: 1fr 1fr; min-height: 100vh; }
+
+/* Panel de marca */
+.auth-marca {
+    background: linear-gradient(160deg, var(--color-primario), var(--color-secundario));
+    color: var(--blanco);
+    display: grid;
+    align-content: space-between;
+    gap: 20px;
+    padding: 56px;
+}
+.auth-marca img { height: 64px; width: auto; }
+.auth-marca h2 { color: var(--blanco); font-size: 48px; }
+.auth-marca p { margin: 0; color: #D4EEF2; }
+.etiqueta { display: inline-block; background: rgba(255,255,255,0.15); font-size: 12px; font-weight: bold; padding: 6px 12px; border-radius: 20px; margin-bottom: 15px; }
+.auth-datos { display: flex; gap: 30px; font-size: 13px; }
+.auth-beneficios { display: grid; gap: 15px; }
+.auth-beneficios h3 { color: var(--blanco); font-size: 16px; margin: 0; }
+.auth-beneficios li p { font-size: 13px; }
+
+/* Tarjeta del formulario */
+.auth-card { width: 100%; max-width: 520px; margin: 0 auto; padding: 48px; align-self: center; }
+.auth-card h1 { font-size: 36px; }
+.auth-card label { display: block; margin: 16px 0 6px 0; font-size: 14px; }
+.auth-card input[type="email"], .auth-card input[type="password"], .auth-card input[type="text"], .auth-card input[type="tel"], .auth-card select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    background: var(--blanco);
+    font-size: 16px;
+}
+.auth-card input:focus, .auth-card select:focus { outline: 2px solid var(--color-primario); }
+.auth-card input[type="submit"] { width: 100%; margin-top: 20px; }
+.auth-card .boton-claro { margin-top: 12px; }
+.fila-check, .auth-card label.fila-check { display: flex; align-items: center; gap: 8px; }
+.auth-card .fila-check input { width: auto; }
+.auth-enlaces { display: flex; justify-content: space-between; align-items: center; gap: 15px; font-size: 14px; margin-top: 12px; }
+.auth-pie { text-align: center; font-size: 14px; color: var(--color-texto); margin-top: 20px; }
+.auth-ayuda { font-size: 12px; color: var(--color-texto); margin: 6px 0 0 0; }
+.paso { font-size: 12px; font-weight: bold; color: var(--color-primario); margin: 0 0 8px 0; }
+.dos-columnas { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.auth-barra { height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--color-primario) 50%, var(--color-borde) 50%); margin: 16px 0; }
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .auth-container { grid-template-columns: 1fr; }
+    .auth-marca { padding: 24px; }
+    .auth-marca h2 { font-size: 32px; }
+    .auth-datos, .auth-beneficios { display: none; }
+    .auth-card { padding: 32px 24px; }
+}
+
+@media (max-width: 768px) {
+    .auth-marca { padding: 20px 15px; }
+    .auth-card { padding: 25px 15px; }
+    .auth-card h1 { font-size: 30px; }
+    .dos-columnas { grid-template-columns: 1fr; gap: 0; }
+}
