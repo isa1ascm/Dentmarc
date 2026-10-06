@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dentmarc - Más Vendidos</title>
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+<body class="fondo-claro">
+<header th:replace="~{fragmentos :: encabezado}"></header>
+
+<main class="contenedor-principal">
+    <div style="margin: 20px 0 30px 0;">
+        <p class="ruta"><a href="/inicio">Inicio</a> / Más vendidos</p>
+        <p style="color: var(--color-primario); font-weight: bold; font-size: 0.85rem; margin-bottom: 5px;">SELECCIÓN DENTMARC</p>
+        <h1 style="font-size: 2rem; margin: 0 0 10px 0; color: var(--color-secundario);">Lo más elegido por profesionales</h1>
+        <p class="texto-suave">Productos confiables que acompañan miles de procedimientos cada día.</p>
+    </div>
+
+    <div class="pildoras-nav">
+        <a href="#" class="pildora activa">Más vendidos</a>
+        <a href="#" class="pildora">Nuevos</a>
+        <a href="#" class="pildora">Ofertas</a>
+        <a href="#" class="pildora">Recomendados</a>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem;">
+        <p><strong>124 productos</strong> encontrados</p>
+        <select style="padding: 5px; border-radius: 4px; border: 1px solid var(--color-borde);"><option>Popularidad</option></select>
+    </div>
+
+    <div class="layout-catalogo">
+        <aside class="filtros tarjeta-cuenta" style="height: fit-content;">
+            <!-- Opciones de filtros -->
+            <button class="btn-agregar" style="width: 100%; height: 40px; margin-top: 20px; font-size: 1rem; font-weight: bold;">Aplicar filtros</button>
+        </aside>
+
+        <section class="grilla-productos">
+            <!-- Producto -->
+            <article class="producto-tarjeta">
+                <div class="tarjeta-imagen">
+                    <span class="badge teal">#1 ventas</span>
+                    <button class="btn-favorito">♡</button>
+                    <img src="https://via.placeholder.com/300x250/d2eeea/007A8D?text=Resina" alt="Resina">
+                </div>
+                <div class="tarjeta-info">
+                    <div class="marca-fecha"><span>3M</span></div>
+                    <h3>Resina universal Filtek Z350 XT</h3>
+                    <div style="color: #F6AD55; font-size: 0.8rem; margin-bottom: 10px;">★★★★★ <span style="color:#A0AEC0">(46)</span></div>
+                    <div class="precio-accion">
+                        <span class="precio">$1,289</span>
+                        <button class="btn-agregar">+</button>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>
