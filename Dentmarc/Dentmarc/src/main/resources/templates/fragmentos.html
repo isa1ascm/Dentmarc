@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <title>Dentmarc - fragmentos</title>
+</head>
+
+<body>
+<!-- Encabezado compartido: barra superior, buscador, cuenta, carrito y menu -->
+<header th:fragment="encabezado" class="encabezado">
+    <div class="barra-superior">
+        <p>Envío gratis desde $2,500 MXN · Entrega nacional 24–72 h</p>
+        <ul class="barra-superior-enlaces">
+            <li>55 9000 3276</li>
+            <li>Ayuda y soporte</li>
+            <li>México · MXN</li>
+        </ul>
+    </div>
+    <div class="encabezado-principal">
+        <a href="/inicio" class="encabezado-logo">
+            <img src="/img/logo-claro.png" alt="Dentmarc Depósito Dental">
+        </a>
+        <form class="buscador" method="get" action="/buscar">
+            <input type="search" name="txt_busqueda" placeholder="Buscar productos, marcas o especialidades...">
+            <input type="submit" value="Buscar">
+        </form>
+        <a href="/login" class="encabezado-cuenta">Mi cuenta</a>
+        <a href="/carrito" class="encabezado-carrito">Carrito <span class="contador">3</span></a>
+    </div>
+    <!-- Menu movil: se abre con el checkbox, sin JavaScript -->
+    <input type="checkbox" id="menu-movil" class="menu-check">
+    <label for="menu-movil" class="menu-boton">☰ Menú</label>
+    <nav class="menu">
+        <a href="/inicio">Inicio</a>
+        <a href="/mas-vendidos">Más vendidos</a>
+        <a href="/categorias">Categorías</a>
+        <a href="/ofertas">Ofertas</a>
+        <a href="/asesoria" class="menu-asesoria">Asesoría profesional</a>
+    </nav>
+</header>
+
+<!-- Pie de pagina compartido -->
+<footer th:fragment="pie" class="pie">
+    <img src="/img/logo-oscuro.png" alt="Dentmarc Depósito Dental" class="pie-logo">
+    <ul class="pie-enlaces">
+        <li><a href="/compra-segura">Compra segura</a></li>
+        <li><a href="/envios">Envíos</a></li>
+        <li><a href="/devoluciones">Devoluciones</a></li>
+        <li><a href="/contacto">Contacto</a></li>
+    </ul>
+    <div class="pie-derechos">
+        <strong>Compra protegida</strong>
+        <p>© 2026 Dentmarc Depósito Dental</p>
+    </div>
+</footer>
+</body>
+
+</html>
