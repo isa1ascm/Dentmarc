@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dentmarc - Carrito</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+
+<body>
+<header th:replace="~{fragmentos :: encabezado}"></header>
+
+<main class="carrito-contenedor">
+    <p class="ruta"><a th:href="@{/inicio}">Inicio</a> / Carrito</p>
+    <div class="carrito-titulo">
+        <div>
+            <h1>Tu carrito</h1>
+            <p class="texto-suave">3 productos · Revisa cantidades antes de continuar.</p>
+        </div>
+        <a th:href="@{/inicio}">← Seguir comprando</a>
+    </div>
+
+    <div class="carrito-columnas">
+        <section class="carrito-lista">
+            <article class="carrito-item">
+                <img th:src="@{/img/producto-10101-01.jpg}" alt="Set de instrumental dental · 4 piezas">
+                <div class="carrito-item-info">
+                    <p class="producto-marca">ARRAIN</p>
+                    <h3>Set de instrumental dental · 4 piezas</h3>
+                    <p class="texto-suave">Set de 4 piezas</p>
+                    <p class="existencia">● En existencia</p>
+                </div>
+                <p class="carrito-precio">$1,289.00</p>
+                <form class="cantidad" method="post" th:action="@{/carrito/actualizar}">
+                    <button type="button" aria-label="Quitar uno">−</button>
+                    <input type="number" name="num_cantidad" value="2" min="1" aria-label="Cantidad">
+                    <button type="button" aria-label="Agregar uno">+</button>
+                </form>
+                <div class="carrito-total"><p>$2,578.00</p><a th:href="@{/carrito/quitar}" class="quitar">Quitar</a></div>
+            </article>
+            <article class="carrito-item">
+                <img th:src="@{/img/producto-10103-01.jpg}" alt="Kit de diagnóstico con espejo">
+                <div class="carrito-item-info">
+                    <p class="producto-marca">ARRAIN</p>
+                    <h3>Kit de diagnóstico con espejo</h3>
+                    <p class="texto-suave">Espejo, pinza y exploradores</p>
+                    <p class="existencia">● En existencia</p>
+                </div>
+                <p class="carrito-precio">$249.00</p>
+                <form class="cantidad" method="post" th:action="@{/carrito/actualizar}">
+                    <button type="button" aria-label="Quitar uno">−</button>
+                    <input type="number" name="num_cantidad" value="3" min="1" aria-label="Cantidad">
+                    <button type="button" aria-label="Agregar uno">+</button>
+                </form>
+                <div class="carrito-total"><p>$747.00</p><a th:href="@{/carrito/quitar}" class="quitar">Quitar</a></div>
+            </article>
+            <article class="carrito-item">
+                <img th:src="@{/img/producto-10108-01.jpg}" alt="Jeringa dental">
+                <div class="carrito-item-info">
+                    <p class="producto-marca">ARRAIN</p>
+                    <h3>Jeringa dental</h3>
+                    <p class="texto-suave">Pieza individual</p>
+                    <p class="existencia">● En existencia</p>
+                </div>
+                <p class="carrito-precio">$845.00</p>
+                <form class="cantidad" method="post" th:action="@{/carrito/actualizar}">
+                    <button type="button" aria-label="Quitar uno">−</button>
+                    <input type="number" name="num_cantidad" value="1" min="1" aria-label="Cantidad">
+                    <button type="button" aria-label="Agregar uno">+</button>
+                </form>
+                <div class="carrito-total"><p>$845.00</p><a th:href="@{/carrito/quitar}" class="quitar">Quitar</a></div>
+            </article>
+        </section>
+
+        <aside class="resumen">
+            <h2>Resumen de compra</h2>
+            <dl>
+                <dt>Subtotal</dt><dd>$4,170.00</dd>
+                <dt>Envío estándar</dt><dd class="existencia">Gratis</dd>
+                <dt>IVA incluido</dt><dd>$575.17</dd>
+            </dl>
+            <div class="resumen-total"><strong>Total</strong><p>$4,170.00 <span>MXN</span></p></div>
+            <p class="existencia">✓ Tu pedido tiene envío gratis</p>
+            <progress value="100" max="100"></progress>
+            <a th:href="@{/pago}" class="boton">→ Continuar al pago</a>
+            <p class="texto-suave">Pago seguro y protección de datos en cada compra.</p>
+        </aside>
+
+        <section class="carrito-extras">
+            <form method="post" th:action="@{/carrito/cupon}" class="tarjeta-extra">
+                <h3>¿Tienes un cupón?</h3>
+                <label for="cupon" class="solo-lector">Cupón</label>
+                <input type="text" id="cupon" name="txt_cupon" placeholder="Ingresa tu código">
+                <input type="submit" value="Aplicar" class="boton-claro">
+            </form>
+            <form method="post" th:action="@{/carrito/envio}" class="tarjeta-extra">
+                <h3>Calcular envío</h3>
+                <label for="cp" class="solo-lector">Código postal</label>
+                <input type="text" id="cp" name="txt_cp" placeholder="Código postal · 06700" pattern="[0-9]{5}">
+                <input type="submit" value="Calcular" class="boton-claro">
+            </form>
+        </section>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+
+</html>
