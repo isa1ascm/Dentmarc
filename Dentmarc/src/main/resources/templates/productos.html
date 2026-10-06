@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos los Productos - Dentmarc</title>
+    <link rel="stylesheet" href="../static/styles.css">
+
+</head>
+<body class="fondo-claro">
+<header th:replace="~{fragmentos :: encabezado}"></header>
+
+<main class="contenedor-principal">
+    <!-- Encabezado General -->
+    <div style="margin: 20px 0 30px 0;">
+        <p class="ruta"><a th:href="@{/inicio}">Inicio</a> / Productos</p>
+        <h1 style="font-size: 2rem; margin: 0 0 10px 0; color: var(--color-secundario);">Catálogo completo</h1>
+        <p class="texto-suave">Explora toda nuestra gama de insumos, instrumental y equipo odontológico.</p>
+    </div>
+
+    <!-- Píldoras de navegación principal -->
+    <div class="pildoras-nav">
+        <a href="#" class="pildora activa">Todos los productos</a>
+        <a href="#" class="pildora">Lanzamientos</a>
+        <a href="#" class="pildora">Promociones</a>
+        <a href="#" class="pildora">Compra recurrente</a>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem;">
+        <p><strong>845 productos</strong> encontrados</p>
+        <select style="padding: 5px; border-radius: 4px; border: 1px solid var(--color-borde); color: var(--color-secundario);">
+            <option>Relevancia</option>
+            <option>Menor a mayor precio</option>
+            <option>Mayor a menor precio</option>
+        </select>
+    </div>
+
+    <div class="layout-catalogo">
+        <!-- Filtros Generales -->
+        <aside class="filtros tarjeta-cuenta" style="height: fit-content;">
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 10px 0; font-size: 0.95rem;">Especialidad</h4>
+                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; cursor: pointer;"><input type="checkbox"> Ortodoncia <span style="float: right; color: #A0AEC0;">120</span></label>
+                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; cursor: pointer;"><input type="checkbox"> Endodoncia <span style="float: right; color: #A0AEC0;">85</span></label>
+                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; cursor: pointer;"><input type="checkbox"> Odontopediatría <span style="float: right; color: #A0AEC0;">43</span></label>
+            </div>
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 10px 0; font-size: 0.95rem;">Marca</h4>
+                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; cursor: pointer;"><input type="checkbox"> 3M <span style="float: right; color: #A0AEC0;">150</span></label>
+                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; cursor: pointer;"><input type="checkbox"> Zeyco <span style="float: right; color: #A0AEC0;">94</span></label>
+            </div>
+            <button class="btn-agregar" style="width: 100%; height: 40px; margin-top: 10px; font-size: 1rem; font-weight: bold;">Aplicar filtros</button>
+        </aside>
+
+        <!-- Grilla -->
+        <section class="grilla-productos">
+            <article class="producto-tarjeta">
+                <div class="tarjeta-imagen">
+                    <button class="btn-favorito">♡</button>
+                    <img src="https://via.placeholder.com/300x250/d2eeea/007A8D?text=Espejo" alt="Espejo Dental">
+                </div>
+                <div class="tarjeta-info">
+                    <div class="marca-fecha"><span>ARRAIN</span></div>
+                    <h3>Espejo dental intraoral de rodio</h3>
+                    <div style="color: #F6AD55; font-size: 0.8rem; margin-bottom: 10px;">★★★★☆ <span style="color:#A0AEC0">(12)</span></div>
+                    <div class="precio-accion">
+                        <span class="precio">$125</span>
+                        <button class="btn-agregar">+</button>
+                    </div>
+                </div>
+            </article>
+        </section>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>
