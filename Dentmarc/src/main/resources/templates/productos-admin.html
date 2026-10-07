@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dentmarc - Control de Productos</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" href="../static/sidebar.css">
+    <link rel="stylesheet" th:href="@{/css/productos.css}" href="../static/productos-admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+
+    <!-- BARRA LATERAL (SIDEBAR) -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-header">
+            <div class="logo-box">
+                <i class="fa-solid fa-tooth logo-icon"></i>
+            </div>
+            <div class="brand-title">
+                <span class="brand-name">Dentmarc</span>
+                <span class="brand-sub">Depósito Dental</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="resumen.html" class="nav-item">
+                <i class="fa-solid fa-border-all"></i>
+                <span>Resumen</span>
+            </a>
+            <!-- PÁGINA ACTUAL RESALTADA -->
+            <a href="productos-admin.html" class="nav-item active">
+                <i class="fa-solid fa-box"></i>
+                <span>Productos</span>
+            </a>
+            <a href="inventario.html" class="nav-item">
+                <i class="fa-solid fa-cubes"></i>
+                <span>Inventario</span>
+            </a>
+            <a href="categorias-admin.html" class="nav-item">
+                <i class="fa-solid fa-tags"></i>
+                <span>Categorías</span>
+            </a>
+            <a href="pedidos.html" class="nav-item">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Pedidos</span>
+            </a>
+            <a href="clientes.html" class="nav-item">
+                <i class="fa-solid fa-users"></i>
+                <span>Clientes</span>
+            </a>
+
+            <div class="nav-section-title">ADMINISTRACIÓN</div>
+
+            <a href="configuracion.html" class="nav-item">
+                <i class="fa-solid fa-gear"></i>
+                <span>Configuración</span>
+            </a>
+            <a href="usuarios.html" class="nav-item">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>Usuarios y roles</span>
+            </a>
+            <a href="actividad.html" class="nav-item">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>Registro de actividad</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-profile">
+            <div class="avatar-box">AM</div>
+            <div class="profile-info">
+                <span class="profile-name">Ana Martínez</span>
+                <span class="profile-role">Superadministradora</span>
+            </div>
+            <i class="fa-solid fa-ellipsis profile-more"></i>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="admin-main">
+        <!-- Header Superior -->
+        <header class="main-header">
+            <div class="breadcrumb">
+                <span>Catálogo</span> / <strong class="current">Productos</strong>
+            </div>
+            <div class="header-actions">
+                <div class="sync-status">
+                    <span class="status-dot green"></span>
+                    <span>Sincronizado hace 2 min</span>
+                </div>
+                <button class="btn-icon-nav" aria-label="Notificaciones">
+                    <i class="fa-regular fa-bell"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Título de la vista y botón de acción principal -->
+        <section class="dashboard-title-bar">
+            <div>
+                <h1>Control de productos</h1>
+                <p class="subtitle">Crea, consulta y actualiza la información visible en la tienda.</p>
+            </div>
+            <button class="btn-primary-admin">
+                <i class="fa-solid fa-plus"></i>
+                <span>Crear producto</span>
+            </button>
+        </section>
+
+        <!-- Tarjetas KPI -->
+        <section class="kpi-grid-products">
+            <div class="kpi-card">
+                <div class="kpi-icon blue-light-bg"><i class="fa-solid fa-box-open"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Productos activos</span>
+                    <div class="kpi-value">4,768 <small class="kpi-sub-text text-green">+82 este mes</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon orange-light-bg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Stock bajo</span>
+                    <div class="kpi-value">126 <small class="kpi-sub-text text-orange">Requieren atención</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon red-light-bg"><i class="fa-solid fa-box-archive"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Agotados</span>
+                    <div class="kpi-value">34 <small class="kpi-sub-text text-red">12 con reposición</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon gray-light-bg"><i class="fa-solid fa-file-lines"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Borradores</span>
+                    <div class="kpi-value">18 <small class="kpi-sub-text text-muted">Pendientes de publicar</small></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Barra de Filtros y Búsqueda -->
+        <section class="filters-bar">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" placeholder="Buscar por nombre, SKU o marca..." class="search-input">
+                <span class="keyboard-shortcut">⌘ K</span>
+            </div>
+
+            <div class="filter-dropdowns">
+                <select class="filter-select">
+                    <option>Categoría: Todas</option>
+                    <option>Restauración</option>
+                    <option>Consumibles</option>
+                    <option>Instrumental</option>
+                    <option>Equipamiento</option>
+                </select>
+
+                <select class="filter-select">
+                    <option>Estado: Todos</option>
+                    <option>Activo</option>
+                    <option>Stock bajo</option>
+                    <option>Agotado</option>
+                    <option>Borrador</option>
+                </select>
+
+                <select class="filter-select">
+                    <option>Inventario</option>
+                    <option>En stock</option>
+                    <option>Sin stock</option>
+                </select>
+
+                <button class="btn-secondary-admin">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Exportar</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Tabla de Productos -->
+        <section class="table-card">
+            <div class="table-responsive">
+                <table class="products-table">
+                    <thead>
+                    <tr>
+                        <th class="col-checkbox"><input type="checkbox" class="custom-checkbox"></th>
+                        <th>PRODUCTO</th>
+                        <th>SKU</th>
+                        <th>CATEGORÍA</th>
+                        <th>PRECIO</th>
+                        <th>STOCK</th>
+                        <th>ESTADO</th>
+                        <th class="text-right">ACCIONES</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- Producto 1 -->
+                    <tr>
+                        <td><input type="checkbox" class="custom-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Resina universal Filtek Z350 XT</span>
+                                    <span class="product-brand">3M</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="sku-text">RES-3M-0350</td>
+                        <td>Restauración</td>
+                        <td class="price-text">$1,289.00</td>
+                        <td>
+                            <div class="stock-cell">
+                                <span>84 uds.</span>
+                                <div class="stock-bar"><div class="stock-progress green-bar" style="width: 80%;"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action delete" title="Eliminar"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Producto 2 -->
+                    <tr>
+                        <td><input type="checkbox" class="custom-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Guantes nitrilo azul · 100 pzas</span>
+                                    <span class="product-brand">Ambiderm</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="sku-text">GUA-AMB-0100</td>
+                        <td>Consumibles</td>
+                        <td class="price-text">$249.00</td>
+                        <td>
+                            <div class="stock-cell">
+                                <span class="text-orange-dark">18 uds.</span>
+                                <div class="stock-bar"><div class="stock-progress orange-bar" style="width: 25%;"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="badge-status badge-warning">&bull; Stock bajo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action delete" title="Eliminar"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Producto 3 -->
+                    <tr>
+                        <td><input type="checkbox" class="custom-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Pieza alta velocidad CX207-C</span>
+                                    <span class="product-brand">Coxo</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="sku-text">PIE-COX-0207</td>
+                        <td>Instrumental</td>
+                        <td class="price-text">$2,490.00</td>
+                        <td>
+                            <div class="stock-cell">
+                                <span>32 uds.</span>
+                                <div class="stock-bar"><div class="stock-progress green-bar" style="width: 50%;"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action delete" title="Eliminar"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Producto 4 -->
+                    <tr>
+                        <td><input type="checkbox" class="custom-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Lámpara fotocurado Curing Pen</span>
+                                    <span class="product-brand">Woodpecker</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="sku-text">LAM-WOD-0148</td>
+                        <td>Equipamiento</td>
+                        <td class="price-text">$2,890.00</td>
+                        <td>
+                            <div class="stock-cell">
+                                <span class="text-orange-dark">9 uds.</span>
+                                <div class="stock-bar"><div class="stock-progress orange-bar" style="width: 15%;"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="badge-status badge-warning">&bull; Stock bajo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action delete" title="Eliminar"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Producto 5 -->
+                    <tr>
+                        <td><input type="checkbox" class="custom-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Adhesivo Single Bond Universal</span>
+                                    <span class="product-brand">3M</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="sku-text">ADH-3M-0051</td>
+                        <td>Restauración</td>
+                        <td class="price-text">$1,045.00</td>
+                        <td>
+                            <div class="stock-cell">
+                                <span>67 uds.</span>
+                                <div class="stock-bar"><div class="stock-progress green-bar" style="width: 70%;"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action delete" title="Eliminar"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Producto 6 -->
+                    <tr>
+                        <td><input type="checkbox" class="custom-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Kit aislamiento absoluto</span>
+                                    <span class="product-brand">Nic Tone</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="sku-text">KIT-NIC-0312</td>
+                        <td>Consumibles</td>
+                        <td class="price-text">$845.00</td>
+                        <td>
+                            <div class="stock-cell">
+                                <span class="text-red">0 uds.</span>
+                                <div class="stock-bar"><div class="stock-progress red-bar" style="width: 0%;"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="badge-status badge-danger">&bull; Agotado</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action delete" title="Eliminar"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <!-- Producto 7 -->
+                    <tr>
+                        <td><input type="checkbox" class="custom-checkbox"></td>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Escáner intraoral Aoralscan 3</span>
+                                    <span class="product-brand">Shining 3D</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="sku-text">ESC-S3D-0003</td>
+                        <td>Equipamiento</td>
+                        <td class="price-text">$98,900.00</td>
+                        <td>
+                            <div class="stock-cell">
+                                <span class="text-red">4 uds.</span>
+                                <div class="stock-bar"><div class="stock-progress red-bar" style="width: 10%;"></div></div>
+                            </div>
+                        </td>
+                        <td><span class="badge-status badge-draft">&bull; Borrador</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action delete" title="Eliminar"><i class="fa-regular fa-trash-can"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Footer Tabla / Paginación -->
+            <div class="table-footer">
+                <span class="pagination-info">Mostrando 1-7 de 4,946 productos</span>
+                <div class="pagination-controls">
+                    <button class="page-btn">&lsaquo;</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <span class="page-dots">...</span>
+                    <button class="page-btn">707</button>
+                    <button class="page-btn">&rsaquo;</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

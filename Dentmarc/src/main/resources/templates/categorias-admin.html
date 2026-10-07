@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dentmarc - Gestión de Categorías</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" href="../static/sidebar.css">
+    <link rel="stylesheet" th:href="@{/css/categorias.css}" href="../static/categorias-admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+
+    <aside class="admin-sidebar" th:fragment="sidebar(activePage)">
+        <div class="sidebar-header">
+            <div class="logo-box">
+                <i class="fa-solid fa-tooth logo-icon"></i>
+            </div>
+            <div class="brand-title">
+                <span class="brand-name">Dentmarc</span>
+                <span class="brand-sub">Depósito Dental</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a th:href="@{/admin/resumen}" href="resumen.html"
+               class="nav-item" th:classappend="${activePage == 'resumen'} ? 'active' : ''">
+                <i class="fa-solid fa-border-all"></i>
+                <span>Resumen</span>
+            </a>
+            <a th:href="@{/admin/productos}" href="productos-admin.html"
+               class="nav-item" th:classappend="${activePage == 'productos'} ? 'active' : ''">
+                <i class="fa-solid fa-box"></i>
+                <span>Productos</span>
+            </a>
+            <a th:href="@{/admin/inventario}" href="inventario.html"
+               class="nav-item" th:classappend="${activePage == 'inventario'} ? 'active' : ''">
+                <i class="fa-solid fa-cubes"></i>
+                <span>Inventario</span>
+            </a>
+            <!-- Página resaltada, cambiar después -->
+            <a th:href="@{/admin/categorias}" href="categorias.html"
+               class="nav-item active" th:classappend="${activePage == 'categorias'} ? 'active' : ''">
+                <i class="fa-solid fa-tags"></i>
+                <span>Categorías</span>
+            </a>
+            <a th:href="@{/admin/pedidos}" href="pedidos.html"
+               class="nav-item" th:classappend="${activePage == 'pedidos'} ? 'active' : ''">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Pedidos</span>
+            </a>
+            <a th:href="@{/admin/clientes}" href="clientes.html"
+               class="nav-item" th:classappend="${activePage == 'clientes'} ? 'active' : ''">
+                <i class="fa-solid fa-users"></i>
+                <span>Clientes</span>
+            </a>
+
+            <div class="nav-section-title">ADMINISTRACIÓN</div>
+
+            <a th:href="@{/admin/configuracion}" href="configuracion.html"
+               class="nav-item" th:classappend="${activePage == 'configuracion'} ? 'active' : ''">
+                <i class="fa-solid fa-gear"></i>
+                <span>Configuración</span>
+            </a>
+            <a th:href="@{/admin/usuarios}" href="usuarios.html"
+               class="nav-item" th:classappend="${activePage == 'usuarios'} ? 'active' : ''">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>Usuarios y roles</span>
+            </a>
+            <a th:href="@{/admin/actividad}" href="actividad.html"
+               class="nav-item" th:classappend="${activePage == 'actividad'} ? 'active' : ''">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>Registro de actividad</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-profile">
+            <div class="avatar-box">AM</div>
+            <div class="profile-info">
+                <span class="profile-name">Ana Martínez</span>
+                <span class="profile-role">Superadministradora</span>
+            </div>
+            <i class="fa-solid fa-ellipsis profile-more"></i>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="main-header">
+            <div class="breadcrumb">
+                <span>Catálogo</span> / <strong class="current">Categorías</strong>
+            </div>
+            <div class="header-actions">
+                <div class="sync-status">
+                    <span class="status-dot green"></span>
+                    <span>Sincronizado hace 2 min</span>
+                </div>
+                <button class="btn-icon-nav" aria-label="Notificaciones">
+                    <i class="fa-regular fa-bell"></i>
+                </button>
+            </div>
+        </header>
+
+        <section class="dashboard-title-bar">
+            <div>
+                <h1>Gestión de categorías</h1>
+                <p class="subtitle">Organiza la navegación y visibilidad del catálogo.</p>
+            </div>
+            <button class="btn-primary-admin">
+                <i class="fa-solid fa-plus"></i>
+                <span>Crear categoría</span>
+            </button>
+        </section>
+
+        <section class="kpi-grid-categories">
+            <div class="kpi-card">
+                <div class="kpi-icon blue-light-bg"><i class="fa-solid fa-tag"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Categorías activas</span>
+                    <div class="kpi-value">8 <small class="kpi-sub-text text-muted">Sin cambios</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon blue-light-bg"><i class="fa-solid fa-box"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Productos asignados</span>
+                    <div class="kpi-value">4,606 <small class="kpi-sub-text text-teal">93% del catálogo</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon orange-light-bg"><i class="fa-regular fa-circle-question"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Sin categoría</span>
+                    <div class="kpi-value">340 <small class="kpi-sub-text text-orange">Requieren clasificación</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon red-light-bg"><i class="fa-regular fa-eye-slash"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Categorías ocultas</span>
+                    <div class="kpi-value">1 <small class="kpi-sub-text text-red">Higiene</small></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="filters-bar">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" placeholder="Buscar categoría..." class="search-input">
+                <span class="keyboard-shortcut">⌘ K</span>
+            </div>
+
+            <div class="filter-dropdowns">
+                <select class="filter-select">
+                    <option>Estado: Todas</option>
+                    <option>Activas</option>
+                    <option>Ocultas</option>
+                </select>
+
+                <select class="filter-select">
+                    <option>Orden: Tienda</option>
+                    <option>Nombre (A-Z)</option>
+                    <option>Más productos</option>
+                </select>
+
+                <button class="btn-secondary-admin">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Exportar</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="table-card">
+            <div class="table-responsive">
+                <table class="categories-table">
+                    <thead>
+                    <tr>
+                        <th>CATEGORÍA</th>
+                        <th class="text-right">PRODUCTOS</th>
+                        <th class="text-right">ACTIVOS</th>
+                        <th class="text-right">INACTIVOS</th>
+                        <th>ESTADO</th>
+                        <th class="text-right">ACCIONES</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="category-cell">
+                                <div class="category-icon-box"><i class="fa-solid fa-syringe"></i></div>
+                                <div class="category-details">
+                                    <span class="category-title">Consumibles</span>
+                                    <span class="slug-text">/consumibles</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold">1,248</td>
+                        <td class="text-right text-teal font-semibold">1,186</td>
+                        <td class="text-right text-muted">62</td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="category-cell">
+                                <div class="category-icon-box"><i class="fa-solid fa-stethoscope"></i></div>
+                                <div class="category-details">
+                                    <span class="category-title">Instrumental</span>
+                                    <span class="slug-text">/instrumental</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold">856</td>
+                        <td class="text-right text-teal font-semibold">814</td>
+                        <td class="text-right text-muted">42</td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="category-cell">
+                                <div class="category-icon-box"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                                <div class="category-details">
+                                    <span class="category-title">Restauración</span>
+                                    <span class="slug-text">/restauración</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold">642</td>
+                        <td class="text-right text-teal font-semibold">610</td>
+                        <td class="text-right text-muted">32</td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="category-cell">
+                                <div class="category-icon-box"><i class="fa-solid fa-teeth-open"></i></div>
+                                <div class="category-details">
+                                    <span class="category-title">Ortodoncia</span>
+                                    <span class="slug-text">/ortodoncia</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold">624</td>
+                        <td class="text-right text-teal font-semibold">588</td>
+                        <td class="text-right text-muted">36</td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="category-cell">
+                                <div class="category-icon-box"><i class="fa-solid fa-heart-pulse"></i></div>
+                                <div class="category-details">
+                                    <span class="category-title">Endodoncia</span>
+                                    <span class="slug-text">/endodoncia</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold">438</td>
+                        <td class="text-right text-teal font-semibold">412</td>
+                        <td class="text-right text-muted">26</td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="category-cell">
+                                <div class="category-icon-box"><i class="fa-solid fa-desktop"></i></div>
+                                <div class="category-details">
+                                    <span class="category-title">Equipamiento</span>
+                                    <span class="slug-text">/equipamiento</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold">312</td>
+                        <td class="text-right text-teal font-semibold">286</td>
+                        <td class="text-right text-muted">26</td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="category-cell">
+                                <div class="category-icon-box"><i class="fa-solid fa-shield-halved"></i></div>
+                                <div class="category-details">
+                                    <span class="category-title">Higiene y prevención</span>
+                                    <span class="slug-text">/higiene-y-prevención</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold">486</td>
+                        <td class="text-right text-teal font-semibold">451</td>
+                        <td class="text-right text-muted">35</td>
+                        <td><span class="badge-status badge-hidden">&bull; Oculta</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <span class="pagination-info">Mostrando 7 de 8 categorías</span>
+                <div class="pagination-controls">
+                    <button class="page-btn">&lsaquo;</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <span class="page-dots">...</span>
+                    <button class="page-btn">&rsaquo;</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

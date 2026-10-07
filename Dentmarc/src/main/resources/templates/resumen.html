@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dentmarc - Resumen administrador</title>
+    <!-- Estilos separados (Thymeleaf y vista estática) -->
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" href="../static/sidebar.css">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" href="../static/resumen.css">
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+    <!-- BARRA LATERAL (SIDEBAR) REUTILIZABLE -->
+    <aside class="admin-sidebar" th:fragment="sidebar(activePage)">
+        <div class="sidebar-header">
+            <div class="logo-box">
+                <i class="fa-solid fa-tooth logo-icon"></i>
+            </div>
+            <div class="brand-title">
+                <span class="brand-name">Dentmarc</span>
+                <span class="brand-sub">Depósito Dental</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <!-- PÁGINA ACTUAL RESALTADA -->
+            <a th:href="@{/admin/resumen}" href="resumen.html"
+               class="nav-item active" th:classappend="${activePage == 'resumen'} ? 'active' : ''">
+                <i class="fa-solid fa-border-all"></i>
+                <span>Resumen</span>
+            </a>
+            <!-- ENLACE A PRODUCTOS -->
+            <a th:href="@{/admin/productos}" href="productos-admin.html"
+               class="nav-item" th:classappend="${activePage == 'productos'} ? 'active' : ''">
+                <i class="fa-solid fa-box"></i>
+                <span>Productos</span>
+            </a>
+            <a th:href="@{/admin/inventario}" href="inventario.html"
+               class="nav-item" th:classappend="${activePage == 'inventario'} ? 'active' : ''">
+                <i class="fa-solid fa-cubes"></i>
+                <span>Inventario</span>
+            </a>
+            <a th:href="@{/admin/categorias}" href="categorias-admin.html"
+               class="nav-item" th:classappend="${activePage == 'categorias'} ? 'active' : ''">
+                <i class="fa-solid fa-tags"></i>
+                <span>Categorías</span>
+            </a>
+            <a th:href="@{/admin/pedidos}" href="pedidos.html"
+               class="nav-item" th:classappend="${activePage == 'pedidos'} ? 'active' : ''">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Pedidos</span>
+            </a>
+            <a th:href="@{/admin/clientes}" href="clientes.html"
+               class="nav-item" th:classappend="${activePage == 'clientes'} ? 'active' : ''">
+                <i class="fa-solid fa-users"></i>
+                <span>Clientes</span>
+            </a>
+
+            <div class="nav-section-title">ADMINISTRACIÓN</div>
+
+            <a th:href="@{/admin/configuracion}" href="configuracion.html"
+               class="nav-item" th:classappend="${activePage == 'configuracion'} ? 'active' : ''">
+                <i class="fa-solid fa-gear"></i>
+                <span>Configuración</span>
+            </a>
+            <a th:href="@{/admin/usuarios}" href="usuarios.html"
+               class="nav-item" th:classappend="${activePage == 'usuarios'} ? 'active' : ''">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>Usuarios y roles</span>
+            </a>
+            <a th:href="@{/admin/actividad}" href="actividad.html"
+               class="nav-item" th:classappend="${activePage == 'actividad'} ? 'active' : ''">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>Registro de actividad</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-profile">
+            <div class="avatar-box">AM</div>
+            <div class="profile-info">
+                <span class="profile-name">Ana Martínez</span>
+                <span class="profile-role">Superadministradora</span>
+            </div>
+            <i class="fa-solid fa-ellipsis profile-more"></i>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="admin-main">
+        <header class="main-header">
+            <div class="breadcrumb">
+                <span>General</span> / <strong class="current">Resumen</strong>
+            </div>
+            <div class="header-actions">
+                <div class="sync-status">
+                    <span class="status-dot green"></span>
+                    <span>Sincronizado hace 2 min</span>
+                </div>
+                <button class="btn-icon-nav" aria-label="Notificaciones">
+                    <i class="fa-regular fa-bell"></i>
+                </button>
+            </div>
+        </header>
+
+        <section class="dashboard-title-bar">
+            <div>
+                <h1>Resumen del negocio</h1>
+                <p class="subtitle">Rendimiento de la tienda hoy, 10 de octubre de 2026.</p>
+            </div>
+            <button class="btn-primary-admin">
+                <i class="fa-solid fa-download"></i>
+                <span>Descargar reporte</span>
+            </button>
+        </section>
+
+        <!-- TARJETAS KPI -->
+        <section class="kpi-grid">
+            <div class="kpi-card">
+                <div class="kpi-icon green-bg"><i class="fa-solid fa-dollar-sign"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Ventas de hoy</span>
+                    <div class="kpi-value">$128,460 <small class="growth positive">+12.8% vs. ayer</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon blue-bg"><i class="fa-solid fa-cart-shopping"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Pedidos nuevos</span>
+                    <div class="kpi-value">84 <small class="sub-info">16 por preparar</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon teal-bg"><i class="fa-solid fa-receipt"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Ticket promedio</span>
+                    <div class="kpi-value">$1,529 <small class="growth positive">+4.2% este mes</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon orange-bg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Productos con alerta</span>
+                    <div class="kpi-value">26 <small class="growth warning">Requieren atención</small></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTENIDO INTERMEDIO -->
+        <section class="dashboard-middle-grid">
+            <div class="admin-card chart-card">
+                <div class="card-header-flex">
+                    <div>
+                        <h3>Ventas de los últimos 7 días</h3>
+                        <span class="muted-text">$742,830 MXN acumulados</span>
+                    </div>
+                    <span class="badge-pill green-pill">+9.4%</span>
+                </div>
+                <div class="chart-bars-container">
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 45%;"></div><span>Lun</span></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 60%;"></div><span>Mar</span></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 50%;"></div><span>Mié</span></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 70%;"></div><span>Jue</span></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 85%;"></div><span>Vie</span></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar" style="height: 55%;"></div><span>Sáb</span></div>
+                    <div class="chart-bar-wrapper"><div class="chart-bar active-bar" style="height: 95%;"></div><span>Hoy</span></div>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-header-flex">
+                    <h3>Alertas de inventario</h3>
+                    <a th:href="@{/admin/inventario}" href="inventario.html" class="link-action">Ver todo</a>
+                </div>
+                <ul class="inventory-alerts-list">
+                    <li>
+                        <div class="item-icon-box"><i class="fa-solid fa-box"></i></div>
+                        <span class="item-name">Guantes Ambiderm M</span>
+                        <span class="item-qty">18 uds.</span>
+                    </li>
+                    <li>
+                        <div class="item-icon-box red-icon"><i class="fa-solid fa-box"></i></div>
+                        <span class="item-name">Lámpara Curing Pen</span>
+                        <span class="item-qty red-text">9 uds.</span>
+                    </li>
+                    <li>
+                        <div class="item-icon-box red-icon"><i class="fa-solid fa-box"></i></div>
+                        <span class="item-name">Kit aislamiento Nic Tone</span>
+                        <span class="item-qty red-text">0 uds.</span>
+                    </li>
+                    <li>
+                        <div class="item-icon-box"><i class="fa-solid fa-box"></i></div>
+                        <span class="item-name">Anestesia Zeyco</span>
+                        <span class="item-qty">14 uds.</span>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- CONTENIDO INFERIOR -->
+        <section class="dashboard-bottom-grid">
+            <div class="admin-card">
+                <div class="card-header-flex">
+                    <h3>Pedidos recientes</h3>
+                    <a th:href="@{/admin/pedidos}" href="pedidos.html" class="link-action">Gestionar pedidos &rarr;</a>
+                </div>
+                <div class="dashboard-table-container">
+                    <table class="dashboard-table">
+                        <tbody>
+                        <tr>
+                            <td><strong>#DM-10482</strong></td>
+                            <td>Clínica Sonrisa Roma</td>
+                            <td><strong>$3,784</strong></td>
+                            <td><span class="badge-status orange-status">&bull; En preparación</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#DM-10481</strong></td>
+                            <td>Dental Nova Satélite</td>
+                            <td><strong>$1,289</strong></td>
+                            <td><span class="badge-status green-status">&bull; Pagado</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#DM-10480</strong></td>
+                            <td>Dr. Javier Montes</td>
+                            <td><strong>$6,420</strong></td>
+                            <td><span class="badge-status blue-status">&bull; Enviado</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong>#DM-10479</strong></td>
+                            <td>Orto Center Puebla</td>
+                            <td><strong>$845</strong></td>
+                            <td><span class="badge-status gray-status">&bull; Revisión</span></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-header-flex">
+                    <h3>Actividad reciente</h3>
+                </div>
+                <ul class="activity-timeline">
+                    <li>
+                        <div class="activity-avatar"></div>
+                        <div class="activity-info">
+                            <strong>Ana Martínez</strong>
+                            <span>actualizó 12 precios</span>
+                        </div>
+                        <time>10:42</time>
+                    </li>
+                    <li>
+                        <div class="activity-avatar"></div>
+                        <div class="activity-info">
+                            <strong>Carlos Ruiz</strong>
+                            <span>confirmó pedido #10480</span>
+                        </div>
+                        <time>10:18</time>
+                    </li>
+                    <li>
+                        <div class="activity-avatar"></div>
+                        <div class="activity-info">
+                            <strong>Sistema</strong>
+                            <span>sincronizó inventario</span>
+                        </div>
+                        <time>09:56</time>
+                    </li>
+                    <li>
+                        <div class="activity-avatar"></div>
+                        <div class="activity-info">
+                            <strong>Mariana Soto</strong>
+                            <span>creó promoción Octubre</span>
+                        </div>
+                        <time>09:31</time>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>

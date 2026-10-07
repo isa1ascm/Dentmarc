@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dentmarc - Control de inventario</title>
+    <link rel="stylesheet" th:href="@{/css/sidebar.css}" href="../static/sidebar.css">
+    <link rel="stylesheet" th:href="@{/css/inventario.css}" href="../static/inventario.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="admin-body">
+<div class="admin-layout">
+
+    <aside class="admin-sidebar" th:fragment="sidebar(activePage)">
+        <div class="sidebar-header">
+            <div class="logo-box">
+                <i class="fa-solid fa-tooth logo-icon"></i>
+            </div>
+            <div class="brand-title">
+                <span class="brand-name">Dentmarc</span>
+                <span class="brand-sub">Depósito Dental</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a th:href="@{/admin/resumen}" href="resumen.html"
+               class="nav-item" th:classappend="${activePage == 'resumen'} ? 'active' : ''">
+                <i class="fa-solid fa-border-all"></i>
+                <span>Resumen</span>
+            </a>
+            <a th:href="@{/admin/productos}" href="productos-admin.html"
+               class="nav-item" th:classappend="${activePage == 'productos'} ? 'active' : ''">
+                <i class="fa-solid fa-box"></i>
+                <span>Productos</span>
+            </a>
+            <!-- Página resaltada, cambiar después -->
+            <a th:href="@{/admin/inventario}" href="inventario.html"
+               class="nav-item active" th:classappend="${activePage == 'inventario'} ? 'active' : ''">
+                <i class="fa-solid fa-cubes"></i>
+                <span>Inventario</span>
+            </a>
+            <a th:href="@{/admin/categorias}" href="categorias-admin.html"
+               class="nav-item" th:classappend="${activePage == 'categorias'} ? 'active' : ''">
+                <i class="fa-solid fa-tags"></i>
+                <span>Categorías</span>
+            </a>
+            <a th:href="@{/admin/pedidos}" href="pedidos.html"
+               class="nav-item" th:classappend="${activePage == 'pedidos'} ? 'active' : ''">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>Pedidos</span>
+            </a>
+            <a th:href="@{/admin/clientes}" href="clientes.html"
+               class="nav-item" th:classappend="${activePage == 'clientes'} ? 'active' : ''">
+                <i class="fa-solid fa-users"></i>
+                <span>Clientes</span>
+            </a>
+
+            <div class="nav-section-title">ADMINISTRACIÓN</div>
+
+            <a th:href="@{/admin/configuracion}" href="configuracion.html"
+               class="nav-item" th:classappend="${activePage == 'configuracion'} ? 'active' : ''">
+                <i class="fa-solid fa-gear"></i>
+                <span>Configuración</span>
+            </a>
+            <a th:href="@{/admin/usuarios}" href="usuarios.html"
+               class="nav-item" th:classappend="${activePage == 'usuarios'} ? 'active' : ''">
+                <i class="fa-solid fa-user-shield"></i>
+                <span>Usuarios y roles</span>
+            </a>
+            <a th:href="@{/admin/actividad}" href="actividad.html"
+               class="nav-item" th:classappend="${activePage == 'actividad'} ? 'active' : ''">
+                <i class="fa-solid fa-rotate-left"></i>
+                <span>Registro de actividad</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-profile">
+            <div class="avatar-box">AM</div>
+            <div class="profile-info">
+                <span class="profile-name">Ana Martínez</span>
+                <span class="profile-role">Superadministradora</span>
+            </div>
+            <i class="fa-solid fa-ellipsis profile-more"></i>
+        </div>
+    </aside>
+
+    <main class="admin-main">
+        <header class="main-header">
+            <div class="breadcrumb">
+                <span>Catálogo</span> / <strong class="current">Inventario</strong>
+            </div>
+            <div class="header-actions">
+                <div class="sync-status">
+                    <span class="status-dot green"></span>
+                    <span>Sincronizado hace 2 min</span>
+                </div>
+                <button class="btn-icon-nav" aria-label="Notificaciones">
+                    <i class="fa-regular fa-bell"></i>
+                </button>
+            </div>
+        </header>
+
+        <section class="dashboard-title-bar">
+            <div>
+                <h1>Control de inventario</h1>
+                <p class="subtitle">Consulta existencias, movimientos y disponibilidad en tiempo real.</p>
+            </div>
+            <button class="btn-primary-admin">
+                <i class="fa-solid fa-right-left"></i>
+                <span>Registrar movimiento</span>
+            </button>
+        </section>
+
+        <section class="kpi-grid-inventory">
+            <div class="kpi-card">
+                <div class="kpi-icon blue-light-bg"><i class="fa-solid fa-boxes-stacked"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Unidades disponibles</span>
+                    <div class="kpi-value">18,426 <small class="kpi-sub-text text-green">+264 esta semana</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon blue-light-bg"><i class="fa-solid fa-box"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Stock comprometido</span>
+                    <div class="kpi-value">1,284 <small class="kpi-sub-text text-muted">69 pedidos</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon orange-light-bg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Stock bajo</span>
+                    <div class="kpi-value">126 <small class="kpi-sub-text text-orange">Reponer pronto</small></div>
+                </div>
+            </div>
+
+            <div class="kpi-card">
+                <div class="kpi-icon red-light-bg"><i class="fa-solid fa-box-archive"></i></div>
+                <div class="kpi-data">
+                    <span class="kpi-label">Agotados</span>
+                    <div class="kpi-value">34 <small class="kpi-sub-text text-red">12 con reposición</small></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="filters-bar">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" placeholder="Buscar por producto, SKU o movimiento..." class="search-input">
+                <span class="keyboard-shortcut">⌘ K</span>
+            </div>
+
+            <div class="filter-dropdowns">
+                <select class="filter-select">
+                    <option>Almacén: Central</option>
+                    <option>Almacén: Norte</option>
+                    <option>Almacén: Sur</option>
+                </select>
+
+                <select class="filter-select">
+                    <option>Estado: Todos</option>
+                    <option>Activo</option>
+                    <option>Stock bajo</option>
+                    <option>Agotado</option>
+                </select>
+
+                <select class="filter-select">
+                    <option>Movimiento</option>
+                    <option>Entrada</option>
+                    <option>Salida</option>
+                    <option>Ajuste</option>
+                </select>
+
+                <button class="btn-secondary-admin">
+                    <i class="fa-solid fa-download"></i>
+                    <span>Exportar</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="table-card">
+            <div class="table-responsive">
+                <table class="inventory-table">
+                    <thead>
+                    <tr>
+                        <th>SKU / PRODUCTO</th>
+                        <th class="text-right">DISPONIBLE</th>
+                        <th class="text-right">COMPROMETIDO</th>
+                        <th class="text-right">EXISTENCIA</th>
+                        <th>ÚLTIMO MOVIMIENTO</th>
+                        <th>ESTADO</th>
+                        <th class="text-right">ACCIONES</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Resina Filtek Z350 XT</span>
+                                    <span class="sku-text">RES-3M-0350</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold">84 uds.</td>
+                        <td class="text-right text-muted">12 uds.</td>
+                        <td class="text-right text-muted">72 uds.</td>
+                        <td><span class="movement-tag text-green">Entrada +24</span></td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Guantes nitrilo azul M</span>
+                                    <span class="sku-text">GUA-AMB-0100</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold text-orange">18 uds.</td>
+                        <td class="text-right text-muted">8 uds.</td>
+                        <td class="text-right text-muted">10 uds.</td>
+                        <td><span class="movement-tag text-dark">Salida -12</span></td>
+                        <td><span class="badge-status badge-warning">&bull; Stock bajo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Pieza alta velocidad CX207-C</span>
+                                    <span class="sku-text">PIE-COX-0207</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold">32 uds.</td>
+                        <td class="text-right text-muted">4 uds.</td>
+                        <td class="text-right text-muted">28 uds.</td>
+                        <td><span class="movement-tag text-green">Entrada +6</span></td>
+                        <td><span class="badge-status badge-active">&bull; Activo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Lámpara Curing Pen</span>
+                                    <span class="sku-text">LAM-WOD-0148</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold text-orange">9 uds.</td>
+                        <td class="text-right text-muted">3 uds.</td>
+                        <td class="text-right text-muted">6 uds.</td>
+                        <td><span class="movement-tag text-dark">Salida -2</span></td>
+                        <td><span class="badge-status badge-warning">&bull; Stock bajo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Kit aislamiento absoluto</span>
+                                    <span class="sku-text">KIT-NIC-0312</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold text-red">0 uds.</td>
+                        <td class="text-right text-muted">0 uds.</td>
+                        <td class="text-right text-muted">0 uds.</td>
+                        <td><span class="movement-tag text-dark">Salida -1</span></td>
+                        <td><span class="badge-status badge-danger">&bull; Agotado</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <div class="product-cell">
+                                <div class="product-icon-box"><i class="fa-solid fa-box"></i></div>
+                                <div class="product-details">
+                                    <span class="product-title">Anestesia tópica cereza</span>
+                                    <span class="sku-text">AN-ZEY-004B</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold text-orange">14 uds.</td>
+                        <td class="text-right text-muted">6 uds.</td>
+                        <td class="text-right text-muted">8 uds.</td>
+                        <td><span class="movement-tag text-dark">Ajuste -3</span></td>
+                        <td><span class="badge-status badge-warning">&bull; Stock bajo</span></td>
+                        <td>
+                            <div class="actions-cell">
+                                <button class="btn-action view" title="Ver"><i class="fa-regular fa-eye"></i></button>
+                                <button class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></button>
+                                <button class="btn-action more" title="Más opciones"><i class="fa-solid fa-ellipsis"></i></button>
+                            </div>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-footer">
+                <span class="pagination-info">Mostrando 1-6 de 4,946 productos</span>
+                <div class="pagination-controls">
+                    <button class="page-btn">&lsaquo;</button>
+                    <button class="page-btn active">1</button>
+                    <button class="page-btn">2</button>
+                    <button class="page-btn">3</button>
+                    <span class="page-dots">...</span>
+                    <button class="page-btn">&rsaquo;</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+</body>
+</html>
