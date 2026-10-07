@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dentmarc - Clientes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+</head>
+
+<body class="fondo-claro">
+<!-- Iconos propios de esta pagina -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-ver" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z"/></symbol>
+    <symbol id="i-editar" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/></symbol>
+    <symbol id="i-exportar" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M4 20h16"/></symbol>
+    <symbol id="i-campana" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0112 0v6l2 2H4zM10 21h4"/></symbol>
+    <symbol id="i-grupo" viewBox="0 0 24 24"><path d="M9 11a4 4 0 100-8 4 4 0 000 8zM2 21v-1a6 6 0 0112 0v1M16 3.5a4 4 0 010 7M18 14a6 6 0 014 6v1"/></symbol>
+    <symbol id="i-usuario-mas" viewBox="0 0 24 24"><path d="M10 11a4 4 0 100-8 4 4 0 000 8zM3 21v-1a6 6 0 0112 0v1M19 8v6M16 11h6"/></symbol>
+    <symbol id="i-usuario-x" viewBox="0 0 24 24"><path d="M10 11a4 4 0 100-8 4 4 0 000 8zM3 21v-1a6 6 0 0112 0v1M16.5 8.5l5 5M21.5 8.5l-5 5"/></symbol>
+    <symbol id="i-cartera" viewBox="0 0 24 24"><path d="M3 7a2 2 0 012-2h13v3M3 7v10a2 2 0 002 2h14a1 1 0 001-1V9a1 1 0 00-1-1H5a2 2 0 01-2-1zM16 14h.01"/></symbol>
+</svg>
+
+<div class="admin-layout">
+    <aside th:replace="~{fragmentos-admin :: menu-admin('clientes')}"></aside>
+
+    <div class="admin-principal">
+        <div class="admin-barra">
+            <p class="ruta"><a th:href="@{/admin/resumen}">Ventas</a> / <strong>Clientes</strong></p>
+            <div class="admin-barra-estado">
+                <span class="sincronizado">Sincronizado hace 2 min</span>
+                <a th:href="@{/admin/notificaciones}" class="admin-notificacion" aria-label="Notificaciones"><svg viewBox="0 0 24 24"><use href="#i-campana"/></svg></a>
+            </div>
+        </div>
+
+        <main class="admin-contenido">
+            <div class="admin-titulo">
+                <div>
+                    <h1>Clientes</h1>
+                    <p>Consulta actividad, valor y relación comercial de tus compradores.</p>
+                </div>
+                <a th:href="@{/admin/clientes/nuevo}" class="boton-admin"><svg viewBox="0 0 24 24"><use href="#i-usuario-mas"/></svg>Agregar cliente</a>
+            </div>
+
+            <!-- Indicadores -->
+            <section class="pedidos-resumen" aria-label="Indicadores de clientes">
+                <article class="dato-tarjeta">
+                    <span class="dato-icono"><svg viewBox="0 0 24 24"><use href="#i-grupo"/></svg></span>
+                    <div>
+                        <p>Clientes activos</p>
+                        <div class="dato-cifra"><strong>3,284</strong><span class="info">+86 este mes</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono"><svg viewBox="0 0 24 24"><use href="#i-usuario-mas"/></svg></span>
+                    <div>
+                        <p>Clientes nuevos</p>
+                        <div class="dato-cifra"><strong>128</strong><span class="info">Últimos 30 días</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono"><svg viewBox="0 0 24 24"><use href="#i-cartera"/></svg></span>
+                    <div>
+                        <p>Valor promedio</p>
+                        <div class="dato-cifra"><strong>$18,460</strong><span class="info">Gasto histórico</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono naranja"><svg viewBox="0 0 24 24"><use href="#i-usuario-x"/></svg></span>
+                    <div>
+                        <p>Sin compra reciente</p>
+                        <div class="dato-cifra"><strong>214</strong><span class="aviso">Más de 90 días</span></div>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Busqueda y filtros -->
+            <form class="admin-filtros" method="get" th:action="@{/admin/clientes}">
+                <label for="busqueda" class="solo-lector">Buscar cliente</label>
+                <input type="search" id="busqueda" name="txt_busqueda" placeholder="Buscar por nombre, clínica, correo o teléfono...">
+                <label for="estado" class="solo-lector">Estado</label>
+                <select id="estado" name="sel_estado">
+                    <option value="">Estado: Todos</option>
+                    <option value="activo">Activo</option>
+                    <option value="vip">VIP</option>
+                    <option value="nuevo">Nuevo</option>
+                    <option value="inactivo">Inactivo</option>
+                </select>
+                <label for="segmento" class="solo-lector">Segmento</label>
+                <select id="segmento" name="sel_segmento">
+                    <option value="">Segmento: Todos</option>
+                    <option value="clinica">Clínica dental</option>
+                    <option value="consultorio">Consultorio independiente</option>
+                    <option value="laboratorio">Laboratorio dental</option>
+                    <option value="estudiante">Estudiante</option>
+                </select>
+                <label for="compra" class="solo-lector">Última compra</label>
+                <select id="compra" name="sel_compra">
+                    <option value="">Última compra</option>
+                    <option value="30">Últimos 30 días</option>
+                    <option value="90">Últimos 90 días</option>
+                    <option value="mas90">Más de 90 días</option>
+                </select>
+                <a th:href="@{/admin/clientes/exportar}" class="boton-admin boton-admin-claro"><svg viewBox="0 0 24 24"><use href="#i-exportar"/></svg>Exportar</a>
+            </form>
+
+            <!-- Tabla de clientes -->
+            <section class="tabla-contenedor">
+                <div class="tabla-scroll">
+                    <table class="tabla-admin">
+                        <thead>
+                        <tr>
+                            <th>Cliente</th>
+                            <th>Contacto</th>
+                            <th class="num">Pedidos</th>
+                            <th class="num">Gasto total</th>
+                            <th>Última compra</th>
+                            <th>Estado</th>
+                            <th class="acciones">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">SR</span>
+                                    <div><strong>Clínica Sonrisa Roma</strong><span>cliente102@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td>Sofía Ramírez</td>
+                            <td class="num">28</td>
+                            <td class="num">$84,560</td>
+                            <td class="fecha">08 oct. 2026</td>
+                            <td><span class="estado activo">● Activo</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/clientes/102}" aria-label="Ver cliente Clínica Sonrisa Roma"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/clientes/102/editar}" class="editar" aria-label="Editar cliente Clínica Sonrisa Roma"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/clientes/102/opciones}" aria-label="Más opciones de Clínica Sonrisa Roma">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">LM</span>
+                                    <div><strong>Dental Nova Satélite</strong><span>cliente103@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td>Laura Méndez</td>
+                            <td class="num">16</td>
+                            <td class="num">$42,180</td>
+                            <td class="fecha">10 oct. 2026</td>
+                            <td><span class="estado activo">● Activo</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/clientes/103}" aria-label="Ver cliente Dental Nova Satélite"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/clientes/103/editar}" class="editar" aria-label="Editar cliente Dental Nova Satélite"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/clientes/103/opciones}" aria-label="Más opciones de Dental Nova Satélite">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">JM</span>
+                                    <div><strong>Dr. Javier Montes</strong><span>cliente104@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td>Javier Montes</td>
+                            <td class="num">9</td>
+                            <td class="num">$31,420</td>
+                            <td class="fecha">10 oct. 2026</td>
+                            <td><span class="estado activo">● Activo</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/clientes/104}" aria-label="Ver cliente Dr. Javier Montes"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/clientes/104/editar}" class="editar" aria-label="Editar cliente Dr. Javier Montes"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/clientes/104/opciones}" aria-label="Más opciones de Dr. Javier Montes">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">MT</span>
+                                    <div><strong>Orto Center Puebla</strong><span>cliente105@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td>María Torres</td>
+                            <td class="num">34</td>
+                            <td class="num">$126,870</td>
+                            <td class="fecha">10 oct. 2026</td>
+                            <td><span class="estado vip">● VIP</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/clientes/105}" aria-label="Ver cliente Orto Center Puebla"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/clientes/105/editar}" class="editar" aria-label="Editar cliente Orto Center Puebla"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/clientes/105/opciones}" aria-label="Más opciones de Orto Center Puebla">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">RV</span>
+                                    <div><strong>Clínica Odontik</strong><span>cliente106@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td>Raúl Vega</td>
+                            <td class="num">12</td>
+                            <td class="num">$38,940</td>
+                            <td class="fecha">09 oct. 2026</td>
+                            <td><span class="estado activo">● Activo</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/clientes/106}" aria-label="Ver cliente Clínica Odontik"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/clientes/106/editar}" class="editar" aria-label="Editar cliente Clínica Odontik"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/clientes/106/opciones}" aria-label="Más opciones de Clínica Odontik">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">PR</span>
+                                    <div><strong>Dental Care MX</strong><span>cliente107@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td>Paola Reyes</td>
+                            <td class="num">2</td>
+                            <td class="num">$14,225</td>
+                            <td class="fecha">09 oct. 2026</td>
+                            <td><span class="estado nuevo">● Nuevo</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/clientes/107}" aria-label="Ver cliente Dental Care MX"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/clientes/107/editar}" class="editar" aria-label="Editar cliente Dental Care MX"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/clientes/107/opciones}" aria-label="Más opciones de Dental Care MX">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">DL</span>
+                                    <div><strong>Consultorio Arcos</strong><span>cliente108@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td>Daniel Luna</td>
+                            <td class="num">7</td>
+                            <td class="num">$18,490</td>
+                            <td class="fecha">09 oct. 2026</td>
+                            <td><span class="estado inactivo">● Inactivo</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/clientes/108}" aria-label="Ver cliente Consultorio Arcos"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/clientes/108/editar}" class="editar" aria-label="Editar cliente Consultorio Arcos"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/clientes/108/opciones}" aria-label="Más opciones de Consultorio Arcos">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tabla-pie">
+                    <p>Mostrando 1–7 de 3,284 clientes</p>
+                    <nav class="admin-paginacion" aria-label="Paginación">
+                        <a th:href="@{/admin/clientes(pagina=0)}" aria-label="Página anterior">‹</a>
+                        <a th:href="@{/admin/clientes(pagina=1)}" class="actual" aria-current="page">1</a>
+                        <a th:href="@{/admin/clientes(pagina=2)}">2</a>
+                        <a th:href="@{/admin/clientes(pagina=3)}">3</a>
+                        <a th:href="@{/admin/clientes(pagina=4)}" aria-label="Más páginas">…</a>
+                        <a th:href="@{/admin/clientes(pagina=2)}" aria-label="Página siguiente">›</a>
+                    </nav>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dentmarc - Configuración de la tienda</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+</head>
+
+<body class="fondo-claro">
+<!-- Iconos propios de esta pagina -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-campana" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0112 0v6l2 2H4zM10 21h4"/></symbol>
+    <symbol id="i-guardar" viewBox="0 0 24 24"><path d="M5 3h11l4 4v13a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1zM8 3v5h7M8 21v-7h8v7"/></symbol>
+    <symbol id="i-cfg-general" viewBox="0 0 24 24"><path d="M12 15a3 3 0 100-6 3 3 0 000 6zM19.4 15l1.6 1.3-2 3.4-2-.7a8 8 0 01-1.7 1l-.4 2.1H9.1l-.4-2.1a8 8 0 01-1.7-1l-2 .7-2-3.4L4.6 15a8 8 0 010-2L3 11.7l2-3.4 2 .7a8 8 0 011.7-1l.4-2.1h4.2l.4 2.1a8 8 0 011.7 1l2-.7 2 3.4-1.6 1.3a8 8 0 010 2z"/></symbol>
+    <symbol id="i-cfg-envios" viewBox="0 0 24 24"><path d="M2 6h12v10H2zM14 10h4l3 3v3h-7M7 19h.01M17 19h.01"/></symbol>
+    <symbol id="i-cfg-pagos" viewBox="0 0 24 24"><path d="M3 6h18v12H3zM3 10h18M7 15h3"/></symbol>
+    <symbol id="i-cfg-factura" viewBox="0 0 24 24"><path d="M7 3h8l4 4v14H7zM14 3v5h5M10 13h6M10 17h6"/></symbol>
+    <symbol id="i-cfg-integra" viewBox="0 0 24 24"><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 01-12 0zM12 17v4"/></symbol>
+</svg>
+
+<div class="admin-layout">
+    <aside th:replace="~{fragmentos-admin :: menu-admin('configuracion')}"></aside>
+
+    <div class="admin-principal">
+        <div class="admin-barra">
+            <p class="ruta"><a th:href="@{/admin/resumen}">Administración</a> / <strong>Configuración</strong></p>
+            <div class="admin-barra-estado">
+                <span class="sincronizado">Sincronizado hace 2 min</span>
+                <a th:href="@{/admin/notificaciones}" class="admin-notificacion" aria-label="Notificaciones"><svg viewBox="0 0 24 24"><use href="#i-campana"/></svg></a>
+            </div>
+        </div>
+
+        <main class="admin-contenido">
+            <form method="post" th:action="@{/admin/configuracion}">
+                <div class="admin-titulo">
+                    <div>
+                        <h1>Configuración de la tienda</h1>
+                        <p>Administra información general, envíos, pagos y notificaciones.</p>
+                    </div>
+                    <button type="submit" class="boton-admin"><svg viewBox="0 0 24 24"><use href="#i-guardar"/></svg>Guardar cambios</button>
+                </div>
+
+                <div class="config-layout">
+                    <!-- Secciones de configuracion -->
+                    <nav class="config-menu" aria-label="Secciones de configuración">
+                        <a th:href="@{/admin/configuracion(seccion='general')}" class="activa" aria-current="page"><svg viewBox="0 0 24 24"><use href="#i-cfg-general"/></svg>General</a>
+                        <a th:href="@{/admin/configuracion(seccion='envios')}"><svg viewBox="0 0 24 24"><use href="#i-cfg-envios"/></svg>Envíos</a>
+                        <a th:href="@{/admin/configuracion(seccion='pagos')}"><svg viewBox="0 0 24 24"><use href="#i-cfg-pagos"/></svg>Pagos</a>
+                        <a th:href="@{/admin/configuracion(seccion='notificaciones')}"><svg viewBox="0 0 24 24"><use href="#i-campana"/></svg>Notificaciones</a>
+                        <a th:href="@{/admin/configuracion(seccion='facturacion')}"><svg viewBox="0 0 24 24"><use href="#i-cfg-factura"/></svg>Facturación</a>
+                        <a th:href="@{/admin/configuracion(seccion='integraciones')}"><svg viewBox="0 0 24 24"><use href="#i-cfg-integra"/></svg>Integraciones</a>
+                    </nav>
+
+                    <div class="config-paneles">
+                        <!-- Informacion general -->
+                        <section class="config-tarjeta">
+                            <h2>Información general</h2>
+                            <p class="texto-suave">Datos visibles en comunicaciones y documentos de venta.</p>
+                            <div class="campos">
+                                <div class="campo">
+                                    <label for="nombre-comercial">Nombre comercial</label>
+                                    <input type="text" id="nombre-comercial" name="txt_nombre_comercial" value="Dentmarc Depósito Dental" required>
+                                </div>
+                                <div class="campo">
+                                    <label for="correo">Correo de contacto</label>
+                                    <input type="email" id="correo" name="correo" value="hola@dentmarc.mx" required>
+                                </div>
+                                <div class="campo">
+                                    <label for="telefono">Teléfono</label>
+                                    <input type="tel" id="telefono" name="tel_telefono" value="55 9000 3276" pattern="[0-9 ]{10,14}">
+                                </div>
+                                <div class="campo">
+                                    <label for="razon-social">Razón social</label>
+                                    <input type="text" id="razon-social" name="txt_razon_social" value="Dentmarc México S.A. de C.V.">
+                                </div>
+                                <div class="campo">
+                                    <label for="rfc">RFC</label>
+                                    <input type="text" id="rfc" name="txt_rfc" value="DME180924KJ4" pattern="[A-ZÑ&amp;]{3,4}[0-9]{6}[A-Z0-9]{3}" maxlength="13">
+                                </div>
+                                <div class="campo">
+                                    <label for="zona-horaria">Zona horaria</label>
+                                    <select id="zona-horaria" name="sel_zona_horaria">
+                                        <option value="America/Mexico_City" selected>(GMT-6) Ciudad de México</option>
+                                        <option value="America/Monterrey">(GMT-6) Monterrey</option>
+                                        <option value="America/Hermosillo">(GMT-7) Hermosillo</option>
+                                        <option value="America/Tijuana">(GMT-8) Tijuana</option>
+                                    </select>
+                                </div>
+                                <div class="campo completo">
+                                    <label for="direccion-fiscal">Dirección fiscal</label>
+                                    <input type="text" id="direccion-fiscal" name="txt_direccion_fiscal" value="Av. Universidad 1200, Del Valle, Benito Juárez, 03100, CDMX">
+                                </div>
+                            </div>
+                        </section>
+
+                        <div class="config-dos">
+                            <!-- Envios -->
+                            <section class="config-tarjeta">
+                                <h2>Envíos</h2>
+                                <div class="opcion">
+                                    <div><strong>Envío gratis</strong><p>Desde $2,500 MXN</p></div>
+                                    <input type="checkbox" id="envio-gratis" name="chk_envio_gratis" value="activo" class="interruptor-input" checked>
+                                    <label for="envio-gratis" class="interruptor"><span class="solo-lector">Envío gratis</span></label>
+                                </div>
+                                <div class="opcion">
+                                    <div><strong>Cálculo por código postal</strong><p>Tarifas nacionales automáticas</p></div>
+                                    <input type="checkbox" id="calculo-cp" name="chk_calculo_cp" value="activo" class="interruptor-input" checked>
+                                    <label for="calculo-cp" class="interruptor"><span class="solo-lector">Cálculo por código postal</span></label>
+                                </div>
+                                <div class="opcion">
+                                    <div><strong>Entrega express</strong><p>Disponible en CDMX y Edomex</p></div>
+                                    <input type="checkbox" id="entrega-express" name="chk_entrega_express" value="activo" class="interruptor-input" checked>
+                                    <label for="entrega-express" class="interruptor"><span class="solo-lector">Entrega express</span></label>
+                                </div>
+                            </section>
+
+                            <!-- Pagos y notificaciones -->
+                            <section class="config-tarjeta">
+                                <h2>Pagos y notificaciones</h2>
+                                <div class="opcion">
+                                    <div><strong>Tarjetas y SPEI</strong><p>Procesador principal habilitado</p></div>
+                                    <input type="checkbox" id="tarjetas" name="chk_tarjetas" value="activo" class="interruptor-input" checked>
+                                    <label for="tarjetas" class="interruptor"><span class="solo-lector">Tarjetas y SPEI</span></label>
+                                </div>
+                                <div class="opcion">
+                                    <div><strong>Avisos de pedidos</strong><p>Correo al cambiar de estado</p></div>
+                                    <input type="checkbox" id="avisos-pedidos" name="chk_avisos_pedidos" value="activo" class="interruptor-input" checked>
+                                    <label for="avisos-pedidos" class="interruptor"><span class="solo-lector">Avisos de pedidos</span></label>
+                                </div>
+                                <div class="opcion">
+                                    <div><strong>Alertas de stock</strong><p>Notificar debajo de 20 unidades</p></div>
+                                    <input type="checkbox" id="alertas-stock" name="chk_alertas_stock" value="activo" class="interruptor-input" checked>
+                                    <label for="alertas-stock" class="interruptor"><span class="solo-lector">Alertas de stock</span></label>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </main>
+    </div>
+</div>
+</body>
+
+</html>

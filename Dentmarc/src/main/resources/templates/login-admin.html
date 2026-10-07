@@ -1,12 +1,99 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dentmarc - Login para administrador</title>
-    <link rel="stylesheet" href="../static/styles.css">
-</head>
-<body>
 
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dentmarc - Login para administrador</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+</head>
+
+<body class="fondo-claro">
+<!-- Iconos propios de esta pagina -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-ajustes" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h2M10 17h10M16 5v4M8 15v4"/></symbol>
+    <symbol id="i-ayuda" viewBox="0 0 24 24"><path d="M12 21a9 9 0 100-18 9 9 0 000 18zM9.5 9.5a2.5 2.5 0 114 2c-.8.6-1.5 1-1.5 2M12 17h.01"/></symbol>
+    <symbol id="i-escudo-ok" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM9 12l2 2 4-4"/></symbol>
+    <symbol id="i-correo" viewBox="0 0 24 24"><path d="M3 5h18v14H3zM3 7l9 6 9-6"/></symbol>
+    <symbol id="i-candado" viewBox="0 0 24 24"><path d="M6 11h12v10H6zM8 11V7a4 4 0 018 0v4M12 15v2"/></symbol>
+    <symbol id="i-ojo" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z"/></symbol>
+    <symbol id="i-flecha" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+</svg>
+
+<main class="acceso">
+    <!-- Lado de marca -->
+    <section class="acceso-marca">
+        <a th:href="@{/inicio}" class="acceso-logo">
+            <img src="/img/logo-oscuro.png" th:src="@{/img/logo-oscuro.png}" alt="Dentmarc Depósito Dental">
+        </a>
+
+        <div class="acceso-mensaje">
+            <p class="acceso-etiqueta"><svg viewBox="0 0 24 24"><use href="#i-ajustes"/></svg>Centro de operaciones Dentmarc</p>
+            <h2>Control claro para un catálogo que crece.</h2>
+            <p>Gestiona productos, inventario y disponibilidad desde un espacio seguro.</p>
+        </div>
+
+        <ul class="acceso-datos">
+            <li><strong>4,890</strong><span>productos activos</span></li>
+            <li><strong>126</strong><span>stock bajo</span></li>
+            <li><strong>99.8%</strong><span>catálogo disponible</span></li>
+        </ul>
+
+        <p class="acceso-estado">Todos los sistemas operan con normalidad</p>
+    </section>
+
+    <!-- Lado del formulario -->
+    <section class="acceso-panel">
+        <div class="acceso-panel-barra">
+            <p>Portal administrativo</p>
+            <a th:href="@{/admin/soporte}"><svg viewBox="0 0 24 24"><use href="#i-ayuda"/></svg>Soporte TI</a>
+        </div>
+
+        <div class="acceso-tarjeta">
+            <span class="acceso-icono"><svg viewBox="0 0 24 24"><use href="#i-escudo-ok"/></svg></span>
+            <h1>Acceso de administrador</h1>
+            <p class="acceso-ayuda">Ingresa tus credenciales para gestionar el catálogo.</p>
+
+            <form method="post" th:action="@{/admin/autenticacion}">
+                <label for="correo">Correo corporativo</label>
+                <div class="acceso-campo">
+                    <svg viewBox="0 0 24 24"><use href="#i-correo"/></svg>
+                    <input type="email" id="correo" name="correo" placeholder="admin@dentmarc.mx" autocomplete="username" required>
+                </div>
+
+                <label for="contrasenia">Contraseña</label>
+                <div class="acceso-campo">
+                    <svg viewBox="0 0 24 24"><use href="#i-candado"/></svg>
+                    <input type="password" id="contrasenia" name="contrasenia" placeholder="Ingresa tu contraseña" autocomplete="current-password" required>
+                    <button type="button" id="ver-contrasenia" class="acceso-ver" aria-label="Mostrar contraseña"><svg viewBox="0 0 24 24"><use href="#i-ojo"/></svg></button>
+                </div>
+
+                <div class="acceso-fila">
+                    <label class="acceso-check" for="confianza"><input type="checkbox" id="confianza" name="chk_confianza" value="confiar"> Confiar en este equipo</label>
+                    <a th:href="@{/admin/recuperar}">Recuperar acceso</a>
+                </div>
+
+                <button type="submit" class="acceso-boton"><svg viewBox="0 0 24 24"><use href="#i-flecha"/></svg>Entrar al panel</button>
+            </form>
+
+            <p class="acceso-seguro"><svg viewBox="0 0 24 24"><use href="#i-candado"/></svg>Sesión protegida con verificación en dos pasos</p>
+        </div>
+
+        <p class="acceso-pie">Dentmarc Admin v2.8 · Acceso exclusivo para personal autorizado</p>
+    </section>
+</main>
+
+<!-- Unico script de la pagina: mostrar u ocultar la contrasena -->
+<script>
+    var botonVer = document.getElementById('ver-contrasenia');
+    botonVer.addEventListener('click', function () {
+        var campo = document.getElementById('contrasenia');
+        var visible = campo.type === 'text';
+        campo.type = visible ? 'password' : 'text';
+        botonVer.setAttribute('aria-label', visible ? 'Mostrar contraseña' : 'Ocultar contraseña');
+    });
+</script>
 </body>
+
 </html>

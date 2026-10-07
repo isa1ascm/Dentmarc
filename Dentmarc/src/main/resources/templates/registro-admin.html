@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dentmarc - Registro de actividad</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+</head>
+
+<body class="fondo-claro">
+<!-- Iconos propios de esta pagina -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-ver" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z"/></symbol>
+    <symbol id="i-exportar" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M4 20h16"/></symbol>
+    <symbol id="i-campana" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0112 0v6l2 2H4zM10 21h4"/></symbol>
+    <symbol id="i-historial" viewBox="0 0 24 24"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.5 2.8L3 8M3 3v5h5M12 7v5l3 2"/></symbol>
+    <symbol id="i-grupo" viewBox="0 0 24 24"><path d="M9 11a4 4 0 100-8 4 4 0 000 8zM2 21v-1a6 6 0 0112 0v1M16 3.5a4 4 0 010 7M18 14a6 6 0 014 6v1"/></symbol>
+    <symbol id="i-escudo-alerta" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6zM12 8v5M12 16h.01"/></symbol>
+    <symbol id="i-persona" viewBox="0 0 24 24"><path d="M12 12a4 4 0 100-8 4 4 0 000 8zM4 21v-1a6 6 0 016-6h4a6 6 0 016 6v1"/></symbol>
+    <symbol id="i-chip" viewBox="0 0 24 24"><path d="M7 7h10v10H7zM10 10h4v4h-4zM9 3v4M15 3v4M9 17v4M15 17v4M3 9h4M3 15h4M17 9h4M17 15h4"/></symbol>
+    <symbol id="i-filtros" viewBox="0 0 24 24"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12M20 18h.01M14 4v4M8 10v4M16 16v4"/></symbol>
+</svg>
+
+<div class="admin-layout">
+    <aside th:replace="~{fragmentos-admin :: menu-admin('actividad')}"></aside>
+
+    <div class="admin-principal">
+        <div class="admin-barra">
+            <p class="ruta"><a th:href="@{/admin/resumen}">Administración</a> / <strong>Registro de actividad</strong></p>
+            <div class="admin-barra-estado">
+                <span class="sincronizado">Sincronizado hace 2 min</span>
+                <a th:href="@{/admin/notificaciones}" class="admin-notificacion" aria-label="Notificaciones"><svg viewBox="0 0 24 24"><use href="#i-campana"/></svg></a>
+            </div>
+        </div>
+
+        <main class="admin-contenido">
+            <div class="admin-titulo">
+                <div>
+                    <h1>Registro de actividad</h1>
+                    <p>Historial auditable de acciones realizadas en el administrador.</p>
+                </div>
+                <a th:href="@{/admin/actividad/exportar}" class="boton-admin"><svg viewBox="0 0 24 24"><use href="#i-exportar"/></svg>Exportar registro</a>
+            </div>
+
+            <!-- Indicadores -->
+            <section class="pedidos-resumen" aria-label="Indicadores de actividad">
+                <article class="dato-tarjeta">
+                    <span class="dato-icono"><svg viewBox="0 0 24 24"><use href="#i-historial"/></svg></span>
+                    <div>
+                        <p>Eventos hoy</p>
+                        <div class="dato-cifra"><strong>486</strong><span class="info">Actividad normal</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono"><svg viewBox="0 0 24 24"><use href="#i-grupo"/></svg></span>
+                    <div>
+                        <p>Usuarios activos</p>
+                        <div class="dato-cifra"><strong>8</strong><span class="info">Últimas 24 h</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono naranja"><svg viewBox="0 0 24 24"><use href="#i-escudo-alerta"/></svg></span>
+                    <div>
+                        <p>Cambios críticos</p>
+                        <div class="dato-cifra"><strong>3</strong><span class="aviso">Requieren revisión</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono"><svg viewBox="0 0 24 24"><use href="#i-exportar"/></svg></span>
+                    <div>
+                        <p>Exportaciones</p>
+                        <div class="dato-cifra"><strong>12</strong><span class="info">Este mes</span></div>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Busqueda y filtros -->
+            <form class="admin-filtros" method="get" th:action="@{/admin/actividad}">
+                <label for="busqueda" class="solo-lector">Buscar en el registro</label>
+                <input type="search" id="busqueda" name="txt_busqueda" placeholder="Buscar por usuario, acción, módulo o IP...">
+                <label for="modulo" class="solo-lector">Módulo</label>
+                <select id="modulo" name="sel_modulo">
+                    <option value="">Módulo: Todos</option>
+                    <option value="productos">Productos</option>
+                    <option value="pedidos">Pedidos</option>
+                    <option value="inventario">Inventario</option>
+                    <option value="ofertas">Ofertas</option>
+                    <option value="clientes">Clientes</option>
+                    <option value="usuarios">Usuarios</option>
+                    <option value="configuracion">Configuración</option>
+                </select>
+                <label for="usuario" class="solo-lector">Usuario</label>
+                <select id="usuario" name="sel_usuario">
+                    <option value="">Usuario: Todos</option>
+                    <option value="ana">Ana Martínez</option>
+                    <option value="carlos">Carlos Ruiz</option>
+                    <option value="mariana">Mariana Soto</option>
+                    <option value="luis">Luis Herrera</option>
+                    <option value="diego">Diego Solís</option>
+                    <option value="sistema">Sistema</option>
+                </select>
+                <label for="fecha" class="solo-lector">Fecha</label>
+                <select id="fecha" name="sel_fecha">
+                    <option value="1">Fecha: Hoy</option>
+                    <option value="7">7 días</option>
+                    <option value="30">30 días</option>
+                    <option value="90">90 días</option>
+                </select>
+                <a th:href="@{/admin/actividad(filtros='avanzados')}" class="boton-admin boton-admin-claro"><svg viewBox="0 0 24 24"><use href="#i-filtros"/></svg>Más filtros</a>
+            </form>
+
+            <!-- Tabla de eventos -->
+            <section class="tabla-contenedor">
+                <div class="tabla-scroll">
+                    <table class="tabla-admin">
+                        <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Acción</th>
+                            <th>Módulo</th>
+                            <th>Tipo</th>
+                            <th>Fecha y hora</th>
+                            <th>Dirección IP</th>
+                            <th class="acciones">Detalle</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td><div class="cliente-celda"><span class="avatar-cliente"><svg viewBox="0 0 24 24"><use href="#i-persona"/></svg></span><strong>Ana Martínez</strong></div></td>
+                            <td>Actualizó precio de 12 productos</td>
+                            <td>Productos</td>
+                            <td><span class="estado edicion">● Edición</span></td>
+                            <td class="fecha">10 oct. · 10:42</td>
+                            <td class="ip">189.203.44.18</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/actividad/1}" aria-label="Ver detalle del evento: Actualizó precio de 12 productos"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cliente-celda"><span class="avatar-cliente"><svg viewBox="0 0 24 24"><use href="#i-persona"/></svg></span><strong>Carlos Ruiz</strong></div></td>
+                            <td>Cambió pedido #DM-10480 a Enviado</td>
+                            <td>Pedidos</td>
+                            <td><span class="estado cambio">● Estado</span></td>
+                            <td class="fecha">10 oct. · 10:18</td>
+                            <td class="ip">189.203.44.32</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/actividad/2}" aria-label="Ver detalle del evento: Cambió pedido #DM-10480 a Enviado"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cliente-celda"><span class="avatar-cliente sistema"><svg viewBox="0 0 24 24"><use href="#i-chip"/></svg></span><strong>Sistema</strong></div></td>
+                            <td>Sincronizó existencias con almacén central</td>
+                            <td>Inventario</td>
+                            <td><span class="estado automatico">● Automático</span></td>
+                            <td class="fecha">10 oct. · 09:56</td>
+                            <td class="ip">10.0.0.12</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/actividad/3}" aria-label="Ver detalle del evento: Sincronizó existencias con almacén central"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cliente-celda"><span class="avatar-cliente"><svg viewBox="0 0 24 24"><use href="#i-persona"/></svg></span><strong>Mariana Soto</strong></div></td>
+                            <td>Creó promoción Semana clínica</td>
+                            <td>Ofertas</td>
+                            <td><span class="estado creacion">● Creación</span></td>
+                            <td class="fecha">10 oct. · 09:31</td>
+                            <td class="ip">187.190.22.4</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/actividad/4}" aria-label="Ver detalle del evento: Creó promoción Semana clínica"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cliente-celda"><span class="avatar-cliente"><svg viewBox="0 0 24 24"><use href="#i-persona"/></svg></span><strong>Ana Martínez</strong></div></td>
+                            <td>Invitó a paola@dentmarc.mx</td>
+                            <td>Usuarios</td>
+                            <td><span class="estado acceso">● Acceso</span></td>
+                            <td class="fecha">10 oct. · 09:12</td>
+                            <td class="ip">189.203.44.18</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/actividad/5}" aria-label="Ver detalle del evento: Invitó a paola@dentmarc.mx"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cliente-celda"><span class="avatar-cliente"><svg viewBox="0 0 24 24"><use href="#i-persona"/></svg></span><strong>Luis Herrera</strong></div></td>
+                            <td>Exportó listado de clientes</td>
+                            <td>Clientes</td>
+                            <td><span class="estado exportacion">● Exportación</span></td>
+                            <td class="fecha">09 oct. · 18:48</td>
+                            <td class="ip">201.141.16.9</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/actividad/6}" aria-label="Ver detalle del evento: Exportó listado de clientes"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><div class="cliente-celda"><span class="avatar-cliente"><svg viewBox="0 0 24 24"><use href="#i-persona"/></svg></span><strong>Diego Solís</strong></div></td>
+                            <td>Ajustó stock de KIT-NIC-0312</td>
+                            <td>Inventario</td>
+                            <td><span class="estado edicion">● Edición</span></td>
+                            <td class="fecha">09 oct. · 18:22</td>
+                            <td class="ip">187.189.7.21</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/actividad/7}" aria-label="Ver detalle del evento: Ajustó stock de KIT-NIC-0312"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tabla-pie">
+                    <p>Mostrando 1–7 de 18,426 eventos</p>
+                    <nav class="admin-paginacion" aria-label="Paginación">
+                        <a th:href="@{/admin/actividad(pagina=0)}" aria-label="Página anterior">‹</a>
+                        <a th:href="@{/admin/actividad(pagina=1)}" class="actual" aria-current="page">1</a>
+                        <a th:href="@{/admin/actividad(pagina=2)}">2</a>
+                        <a th:href="@{/admin/actividad(pagina=3)}">3</a>
+                        <a th:href="@{/admin/actividad(pagina=4)}" aria-label="Más páginas">…</a>
+                        <a th:href="@{/admin/actividad(pagina=2)}" aria-label="Página siguiente">›</a>
+                    </nav>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+
+</html>

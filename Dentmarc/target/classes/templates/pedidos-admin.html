@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dentmarc - Gestión de pedidos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css">
+</head>
+
+<body class="fondo-claro">
+<!-- Iconos propios de esta pagina -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-ver" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z"/></symbol>
+    <symbol id="i-editar" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/></symbol>
+    <symbol id="i-mas" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+    <symbol id="i-exportar" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M4 20h16"/></symbol>
+    <symbol id="i-campana" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0112 0v6l2 2H4zM10 21h4"/></symbol>
+    <symbol id="i-carrito" viewBox="0 0 24 24"><path d="M3 4h2.5l2.4 11h10.2L20 7H7M9.5 20h.01M17 20h.01"/></symbol>
+    <symbol id="i-caja" viewBox="0 0 24 24"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9zM4 7.5l8 4.5 8-4.5M12 12v9"/></symbol>
+    <symbol id="i-camion" viewBox="0 0 24 24"><path d="M2 6h12v10H2zM14 10h4l3 3v3h-7M7 19h.01M17 19h.01"/></symbol>
+    <symbol id="i-dinero" viewBox="0 0 24 24"><path d="M12 21a9 9 0 100-18 9 9 0 000 18zM12 7v10M14.5 9.5C14 8.7 13 8.5 12 8.5c-1.5 0-2.500.8-2.500 1.8 0 2.500 5 1.200 5 3.700 0 1-1 1.8-2.500 1.8-1 0-2-.3-2.500-1"/></symbol>
+</svg>
+
+<div class="admin-layout">
+    <aside th:replace="~{fragmentos-admin :: menu-admin('pedidos')}"></aside>
+
+    <div class="admin-principal">
+        <div class="admin-barra">
+            <p class="ruta"><a th:href="@{/admin/resumen}">Ventas</a> / <strong>Pedidos</strong></p>
+            <div class="admin-barra-estado">
+                <span class="sincronizado">Sincronizado hace 2 min</span>
+                <a th:href="@{/admin/notificaciones}" class="admin-notificacion" aria-label="Notificaciones"><svg viewBox="0 0 24 24"><use href="#i-campana"/></svg></a>
+            </div>
+        </div>
+
+        <main class="admin-contenido">
+            <div class="admin-titulo">
+                <div>
+                    <h1>Gestión de pedidos</h1>
+                    <p>Procesa, da seguimiento y resuelve incidencias de cada compra.</p>
+                </div>
+                <a th:href="@{/admin/pedidos/nuevo}" class="boton-admin"><svg viewBox="0 0 24 24"><use href="#i-mas"/></svg>Crear pedido</a>
+            </div>
+
+            <!-- Indicadores del dia -->
+            <section class="pedidos-resumen" aria-label="Indicadores de hoy">
+                <article class="dato-tarjeta">
+                    <span class="dato-icono"><svg viewBox="0 0 24 24"><use href="#i-carrito"/></svg></span>
+                    <div>
+                        <p>Pedidos de hoy</p>
+                        <div class="dato-cifra"><strong>84</strong><span class="sube">+11.6% vs. ayer</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono naranja"><svg viewBox="0 0 24 24"><use href="#i-caja"/></svg></span>
+                    <div>
+                        <p>Por preparar</p>
+                        <div class="dato-cifra"><strong>16</strong><span class="aviso">Antes de las 14:00</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono"><svg viewBox="0 0 24 24"><use href="#i-camion"/></svg></span>
+                    <div>
+                        <p>En tránsito</p>
+                        <div class="dato-cifra"><strong>42</strong><span>3 con incidencia</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono verde"><svg viewBox="0 0 24 24"><use href="#i-dinero"/></svg></span>
+                    <div>
+                        <p>Ventas de hoy</p>
+                        <div class="dato-cifra"><strong>$128,460</strong><span>Ticket $1,529</span></div>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Busqueda y filtros -->
+            <form class="admin-filtros" method="get" th:action="@{/admin/pedidos}">
+                <label for="busqueda" class="solo-lector">Buscar pedido</label>
+                <input type="search" id="busqueda" name="txt_busqueda" placeholder="Buscar por pedido, cliente, correo o teléfono...">
+                <label for="estado" class="solo-lector">Estado</label>
+                <select id="estado" name="sel_estado">
+                    <option value="">Estado: Todos</option>
+                    <option value="nuevo">Nuevo</option>
+                    <option value="preparacion">En preparación</option>
+                    <option value="pagado">Pagado</option>
+                    <option value="enviado">Enviado</option>
+                    <option value="entregado">Entregado</option>
+                    <option value="cancelado">Cancelado</option>
+                </select>
+                <label for="fecha" class="solo-lector">Fecha</label>
+                <select id="fecha" name="sel_fecha">
+                    <option value="7">Fecha: 7 días</option>
+                    <option value="1">Hoy</option>
+                    <option value="30">30 días</option>
+                    <option value="90">90 días</option>
+                </select>
+                <label for="canal" class="solo-lector">Canal</label>
+                <select id="canal" name="sel_canal">
+                    <option value="">Canal: Todos</option>
+                    <option value="web">Tienda en línea</option>
+                    <option value="telefono">Teléfono</option>
+                    <option value="mostrador">Mostrador</option>
+                </select>
+                <a th:href="@{/admin/pedidos/exportar}" class="boton-admin boton-admin-claro"><svg viewBox="0 0 24 24"><use href="#i-exportar"/></svg>Exportar</a>
+            </form>
+
+            <!-- Pestanas por estado -->
+            <nav class="pildoras-nav pedidos-pestanas" aria-label="Filtrar por estado">
+                <a th:href="@{/admin/pedidos}" class="pildora activa">Todos <span>284</span></a>
+                <a th:href="@{/admin/pedidos(sel_estado='nuevo')}" class="pildora">Nuevos <span>16</span></a>
+                <a th:href="@{/admin/pedidos(sel_estado='preparacion')}" class="pildora">En preparación <span>24</span></a>
+                <a th:href="@{/admin/pedidos(sel_estado='enviado')}" class="pildora">Enviados <span>42</span></a>
+                <a th:href="@{/admin/pedidos(sel_estado='entregado')}" class="pildora">Entregados <span>188</span></a>
+                <a th:href="@{/admin/pedidos(sel_estado='incidencia')}" class="pildora">Incidencias <span>3</span></a>
+            </nav>
+
+            <!-- Tabla de pedidos -->
+            <section class="tabla-contenedor">
+                <div class="tabla-scroll">
+                    <table class="tabla-admin">
+                        <thead>
+                        <tr>
+                            <th>Pedido</th>
+                            <th>Cliente</th>
+                            <th>Contacto</th>
+                            <th class="num">Total</th>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th class="acciones">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="codigo"><a th:href="@{/admin/pedidos/DM-10482}">#DM-10482</a></td>
+                            <td class="cliente"><strong>Clínica Sonrisa Roma</strong><span>3 productos</span></td>
+                            <td>Sofía Ramírez</td>
+                            <td class="num">$3,784.00</td>
+                            <td class="fecha">Hoy · 10:42</td>
+                            <td><span class="estado preparacion">● En preparación</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/pedidos/DM-10482}" aria-label="Ver pedido DM-10482"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10482/editar}" class="editar" aria-label="Editar pedido DM-10482"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10482/opciones}" aria-label="Más opciones del pedido DM-10482">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="codigo"><a th:href="@{/admin/pedidos/DM-10481}">#DM-10481</a></td>
+                            <td class="cliente"><strong>Dental Nova Satélite</strong><span>2 productos</span></td>
+                            <td>Laura Méndez</td>
+                            <td class="num">$1,289.00</td>
+                            <td class="fecha">Hoy · 10:18</td>
+                            <td><span class="estado pagado">● Pagado</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/pedidos/DM-10481}" aria-label="Ver pedido DM-10481"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10481/editar}" class="editar" aria-label="Editar pedido DM-10481"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10481/opciones}" aria-label="Más opciones del pedido DM-10481">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="codigo"><a th:href="@{/admin/pedidos/DM-10480}">#DM-10480</a></td>
+                            <td class="cliente"><strong>Dr. Javier Montes</strong><span>1 producto</span></td>
+                            <td>Javier Montes</td>
+                            <td class="num">$6,420.00</td>
+                            <td class="fecha">Hoy · 09:56</td>
+                            <td><span class="estado enviado">● Enviado</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/pedidos/DM-10480}" aria-label="Ver pedido DM-10480"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10480/editar}" class="editar" aria-label="Editar pedido DM-10480"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10480/opciones}" aria-label="Más opciones del pedido DM-10480">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="codigo"><a th:href="@{/admin/pedidos/DM-10479}">#DM-10479</a></td>
+                            <td class="cliente"><strong>Orto Center Puebla</strong><span>2 productos</span></td>
+                            <td>María Torres</td>
+                            <td class="num">$845.00</td>
+                            <td class="fecha">Hoy · 09:31</td>
+                            <td><span class="estado revision">● Revisión</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/pedidos/DM-10479}" aria-label="Ver pedido DM-10479"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10479/editar}" class="editar" aria-label="Editar pedido DM-10479"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10479/opciones}" aria-label="Más opciones del pedido DM-10479">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="codigo"><a th:href="@{/admin/pedidos/DM-10478}">#DM-10478</a></td>
+                            <td class="cliente"><strong>Clínica Odontik</strong><span>1 producto</span></td>
+                            <td>Raúl Vega</td>
+                            <td class="num">$2,938.00</td>
+                            <td class="fecha">Ayer · 18:22</td>
+                            <td><span class="estado entregado">● Entregado</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/pedidos/DM-10478}" aria-label="Ver pedido DM-10478"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10478/editar}" class="editar" aria-label="Editar pedido DM-10478"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10478/opciones}" aria-label="Más opciones del pedido DM-10478">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="codigo"><a th:href="@{/admin/pedidos/DM-10477}">#DM-10477</a></td>
+                            <td class="cliente"><strong>Dental Care MX</strong><span>4 productos</span></td>
+                            <td>Paola Reyes</td>
+                            <td class="num">$12,480.00</td>
+                            <td class="fecha">Ayer · 17:48</td>
+                            <td><span class="estado preparacion">● En preparación</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/pedidos/DM-10477}" aria-label="Ver pedido DM-10477"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10477/editar}" class="editar" aria-label="Editar pedido DM-10477"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10477/opciones}" aria-label="Más opciones del pedido DM-10477">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="codigo"><a th:href="@{/admin/pedidos/DM-10476}">#DM-10476</a></td>
+                            <td class="cliente"><strong>Consultorio Arcos</strong><span>3 productos</span></td>
+                            <td>Daniel Luna</td>
+                            <td class="num">$1,045.00</td>
+                            <td class="fecha">Ayer · 16:05</td>
+                            <td><span class="estado cancelado">● Cancelado</span></td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/pedidos/DM-10476}" aria-label="Ver pedido DM-10476"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10476/editar}" class="editar" aria-label="Editar pedido DM-10476"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/pedidos/DM-10476/opciones}" aria-label="Más opciones del pedido DM-10476">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tabla-pie">
+                    <p>Mostrando 1–7 de 284 pedidos</p>
+                    <nav class="admin-paginacion" aria-label="Paginación">
+                        <a th:href="@{/admin/pedidos(pagina=0)}" aria-label="Página anterior">‹</a>
+                        <a th:href="@{/admin/pedidos(pagina=1)}" class="actual" aria-current="page">1</a>
+                        <a th:href="@{/admin/pedidos(pagina=2)}">2</a>
+                        <a th:href="@{/admin/pedidos(pagina=3)}">3</a>
+                        <a th:href="@{/admin/pedidos(pagina=4)}" aria-label="Más páginas">…</a>
+                        <a th:href="@{/admin/pedidos(pagina=2)}" aria-label="Página siguiente">›</a>
+                    </nav>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+
+</html>

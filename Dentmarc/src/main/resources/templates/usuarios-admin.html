@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dentmarc - Usuarios y roles</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+</head>
+
+<body class="fondo-claro">
+<!-- Iconos propios de esta pagina -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-ver" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12zM12 15a3 3 0 100-6 3 3 0 000 6z"/></symbol>
+    <symbol id="i-editar" viewBox="0 0 24 24"><path d="M4 20h4L19 9l-4-4L4 16zM13.5 6.5l4 4"/></symbol>
+    <symbol id="i-exportar" viewBox="0 0 24 24"><path d="M12 4v11M7 11l5 5 5-5M4 20h16"/></symbol>
+    <symbol id="i-campana" viewBox="0 0 24 24"><path d="M6 17V11a6 6 0 0112 0v6l2 2H4zM10 21h4"/></symbol>
+    <symbol id="i-grupo" viewBox="0 0 24 24"><path d="M9 11a4 4 0 100-8 4 4 0 000 8zM2 21v-1a6 6 0 0112 0v1M16 3.5a4 4 0 010 7M18 14a6 6 0 014 6v1"/></symbol>
+    <symbol id="i-usuario-mas" viewBox="0 0 24 24"><path d="M10 11a4 4 0 100-8 4 4 0 000 8zM3 21v-1a6 6 0 0112 0v1M19 8v6M16 11h6"/></symbol>
+    <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/></symbol>
+    <symbol id="i-sobre" viewBox="0 0 24 24"><path d="M3 5h18v14H3zM3 7l9 6 9-6"/></symbol>
+    <symbol id="i-candado" viewBox="0 0 24 24"><path d="M6 11h12v10H6zM8 11V7a4 4 0 018 0v4"/></symbol>
+</svg>
+
+<div class="admin-layout">
+    <aside th:replace="~{fragmentos-admin :: menu-admin('usuarios')}"></aside>
+
+    <div class="admin-principal">
+        <div class="admin-barra">
+            <p class="ruta"><a th:href="@{/admin/resumen}">Administración</a> / <strong>Usuarios y roles</strong></p>
+            <div class="admin-barra-estado">
+                <span class="sincronizado">Sincronizado hace 2 min</span>
+                <a th:href="@{/admin/notificaciones}" class="admin-notificacion" aria-label="Notificaciones"><svg viewBox="0 0 24 24"><use href="#i-campana"/></svg></a>
+            </div>
+        </div>
+
+        <main class="admin-contenido">
+            <div class="admin-titulo">
+                <div>
+                    <h1>Usuarios y roles</h1>
+                    <p>Controla el acceso administrativo y los permisos del equipo.</p>
+                </div>
+                <a th:href="@{/admin/usuarios/invitar}" class="boton-admin"><svg viewBox="0 0 24 24"><use href="#i-usuario-mas"/></svg>Invitar usuario</a>
+            </div>
+
+            <!-- Indicadores -->
+            <section class="pedidos-resumen" aria-label="Indicadores de usuarios">
+                <article class="dato-tarjeta">
+                    <span class="dato-icono"><svg viewBox="0 0 24 24"><use href="#i-grupo"/></svg></span>
+                    <div>
+                        <p>Usuarios activos</p>
+                        <div class="dato-cifra"><strong>12</strong><span class="info">8 conectados hoy</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono"><svg viewBox="0 0 24 24"><use href="#i-escudo"/></svg></span>
+                    <div>
+                        <p>Roles configurados</p>
+                        <div class="dato-cifra"><strong>6</strong><span class="info">2 personalizados</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono naranja"><svg viewBox="0 0 24 24"><use href="#i-sobre"/></svg></span>
+                    <div>
+                        <p>Invitaciones</p>
+                        <div class="dato-cifra"><strong>2</strong><span class="aviso">Pendientes</span></div>
+                    </div>
+                </article>
+                <article class="dato-tarjeta">
+                    <span class="dato-icono rojo"><svg viewBox="0 0 24 24"><use href="#i-candado"/></svg></span>
+                    <div>
+                        <p>Accesos bloqueados</p>
+                        <div class="dato-cifra"><strong>1</strong><span class="alerta">Revisar</span></div>
+                    </div>
+                </article>
+            </section>
+
+            <!-- Busqueda y filtros -->
+            <form class="admin-filtros" method="get" th:action="@{/admin/usuarios}">
+                <label for="busqueda" class="solo-lector">Buscar usuario</label>
+                <input type="search" id="busqueda" name="txt_busqueda" placeholder="Buscar usuario por nombre o correo...">
+                <label for="rol" class="solo-lector">Rol</label>
+                <select id="rol" name="sel_rol">
+                    <option value="">Rol: Todos</option>
+                    <option value="superadmin">Superadministradora</option>
+                    <option value="operaciones">Operaciones</option>
+                    <option value="catalogo">Catálogo</option>
+                    <option value="soporte">Soporte</option>
+                    <option value="finanzas">Finanzas</option>
+                    <option value="almacen">Almacén</option>
+                </select>
+                <label for="estado" class="solo-lector">Estado</label>
+                <select id="estado" name="sel_estado">
+                    <option value="">Estado: Todos</option>
+                    <option value="activo">Activo</option>
+                    <option value="invitado">Invitado</option>
+                    <option value="suspendido">Suspendido</option>
+                </select>
+                <a th:href="@{/admin/usuarios/exportar}" class="boton-admin boton-admin-claro"><svg viewBox="0 0 24 24"><use href="#i-exportar"/></svg>Exportar</a>
+            </form>
+
+            <!-- Tabla de usuarios -->
+            <section class="tabla-contenedor">
+                <div class="tabla-scroll">
+                    <table class="tabla-admin">
+                        <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Rol</th>
+                            <th>Permisos</th>
+                            <th>Estado</th>
+                            <th>Último acceso</th>
+                            <th class="acciones">Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">AM</span>
+                                    <div><strong>Ana Martínez</strong><span>ana@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td class="rol">Superadministradora</td>
+                            <td class="permisos">Todos los permisos</td>
+                            <td><span class="estado activo">● Activo</span></td>
+                            <td class="fecha">Hace 4 min</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/usuarios/1}" aria-label="Ver usuario Ana Martínez"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/1/editar}" class="editar" aria-label="Editar usuario Ana Martínez"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/1/opciones}" aria-label="Más opciones de Ana Martínez">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">CR</span>
+                                    <div><strong>Carlos Ruiz</strong><span>carlos@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td class="rol">Operaciones</td>
+                            <td class="permisos">Pedidos e inventario</td>
+                            <td><span class="estado activo">● Activo</span></td>
+                            <td class="fecha">Hace 18 min</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/usuarios/2}" aria-label="Ver usuario Carlos Ruiz"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/2/editar}" class="editar" aria-label="Editar usuario Carlos Ruiz"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/2/opciones}" aria-label="Más opciones de Carlos Ruiz">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">MS</span>
+                                    <div><strong>Mariana Soto</strong><span>mariana@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td class="rol">Catálogo</td>
+                            <td class="permisos">Productos y promociones</td>
+                            <td><span class="estado activo">● Activo</span></td>
+                            <td class="fecha">Ayer, 18:42</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/usuarios/3}" aria-label="Ver usuario Mariana Soto"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/3/editar}" class="editar" aria-label="Editar usuario Mariana Soto"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/3/opciones}" aria-label="Más opciones de Mariana Soto">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">LH</span>
+                                    <div><strong>Luis Herrera</strong><span>luis@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td class="rol">Soporte</td>
+                            <td class="permisos">Clientes y pedidos</td>
+                            <td><span class="estado activo">● Activo</span></td>
+                            <td class="fecha">Ayer, 16:10</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/usuarios/4}" aria-label="Ver usuario Luis Herrera"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/4/editar}" class="editar" aria-label="Editar usuario Luis Herrera"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/4/opciones}" aria-label="Más opciones de Luis Herrera">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">PM</span>
+                                    <div><strong>Paola Méndez</strong><span>paola@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td class="rol">Finanzas</td>
+                            <td class="permisos">Reportes y pagos</td>
+                            <td><span class="estado invitado">● Invitado</span></td>
+                            <td class="fecha">Nunca</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/usuarios/5}" aria-label="Ver usuario Paola Méndez"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/5/editar}" class="editar" aria-label="Editar usuario Paola Méndez"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/5/opciones}" aria-label="Más opciones de Paola Méndez">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="cliente">
+                                <div class="cliente-celda">
+                                    <span class="avatar-cliente">DS</span>
+                                    <div><strong>Diego Solís</strong><span>diego@dentmarc.mx</span></div>
+                                </div>
+                            </td>
+                            <td class="rol">Almacén</td>
+                            <td class="permisos">Inventario</td>
+                            <td><span class="estado suspendido">● Suspendido</span></td>
+                            <td class="fecha">28 sep. 2026</td>
+                            <td>
+                                <div class="acciones-fila">
+                                    <a th:href="@{/admin/usuarios/6}" aria-label="Ver usuario Diego Solís"><svg viewBox="0 0 24 24"><use href="#i-ver"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/6/editar}" class="editar" aria-label="Editar usuario Diego Solís"><svg viewBox="0 0 24 24"><use href="#i-editar"/></svg></a>
+                                    <a th:href="@{/admin/usuarios/6/opciones}" aria-label="Más opciones de Diego Solís">•••</a>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="tabla-pie">
+                    <p>Mostrando 6 de 14 usuarios</p>
+                    <nav class="admin-paginacion" aria-label="Paginación">
+                        <a th:href="@{/admin/usuarios(pagina=0)}" aria-label="Página anterior">‹</a>
+                        <a th:href="@{/admin/usuarios(pagina=1)}" class="actual" aria-current="page">1</a>
+                        <a th:href="@{/admin/usuarios(pagina=2)}">2</a>
+                        <a th:href="@{/admin/usuarios(pagina=3)}">3</a>
+                        <a th:href="@{/admin/usuarios(pagina=4)}" aria-label="Más páginas">…</a>
+                        <a th:href="@{/admin/usuarios(pagina=2)}" aria-label="Página siguiente">›</a>
+                    </nav>
+                </div>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+
+</html>
