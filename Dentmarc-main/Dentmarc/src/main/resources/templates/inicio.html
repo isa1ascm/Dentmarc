@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dentmarc - Inicio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+    <link rel="stylesheet" href="../static/style-inicio.css" th:href="@{/style-inicio.css}">
+</head>
+
+<body class="fondo-claro">
+<header th:replace="~{fragmentos :: encabezado}"></header>
+
+<main>
+    <section class="portada">
+        <div class="portada-texto">
+            <p class="etiqueta">✦ Todo para renovar tu consultorio</p>
+            <h1>Precisión clínica, compras sin complicaciones.</h1>
+            <p class="portada-descripcion">Insumos, instrumental y equipamiento seleccionados para acompañar cada procedimiento.</p>
+            <a href="/categorias" class="boton">→ Explorar catálogo</a>
+        </div>
+        <div class="portada-imagen">
+            <img src="/img/hero-consultorio.jpg" alt="Consultorio dental equipado">
+            <p class="portada-nota"><strong>Distribuidores autorizados</strong><br>Productos originales y con garantía</p>
+        </div>
+    </section>
+
+    <section class="categorias">
+        <a href="/categorias" class="categoria-tarjeta"><h3>Consumibles</h3><p>1,248 productos</p></a>
+        <a href="/categorias" class="categoria-tarjeta"><h3>Instrumental</h3><p>856 productos</p></a>
+        <a href="/categorias" class="categoria-tarjeta"><h3>Ortodoncia</h3><p>624 productos</p></a>
+        <a href="/categorias" class="categoria-tarjeta"><h3>Equipamiento</h3><p>312 productos</p></a>
+        <a href="/categorias" class="categoria-tarjeta"><h3>Higiene</h3><p>486 productos</p></a>
+        <a href="/ofertas" class="categoria-tarjeta"><h3>Ofertas</h3><p class="texto-oferta">Hasta 30% menos</p></a>
+    </section>
+
+    <section class="favoritos">
+        <div class="favoritos-titulo">
+            <div>
+                <p class="etiqueta-seccion">SELECCIÓN PARA TI</p>
+                <h2>Favoritos de profesionales</h2>
+            </div>
+            <a href="/categorias">Ver todos los productos →</a>
+        </div>
+        <div class="productos">
+            <article class="producto-tarjeta">
+                <span class="insignia">Más vendido</span>
+                <img src="/img/producto-10101-01.jpg" alt="Set de instrumental dental · 4 piezas">
+                <div class="producto-datos">
+                    <p class="producto-marca">ARRAIN</p>
+                    <h3>Set de instrumental dental · 4 piezas</h3>
+                    <p class="producto-estrellas">★★★★★ <span>(48)</span></p>
+                    <div class="producto-compra"><p class="precio">$1,289</p><button type="button" class="boton-agregar" aria-label="Agregar al carrito">+</button></div>
+                </div>
+            </article>
+            <article class="producto-tarjeta">
+                <span class="insignia insignia-oferta">-14%</span>
+                <img src="/img/producto-10103-01.jpg" alt="Kit de diagnóstico con espejo">
+                <div class="producto-datos">
+                    <p class="producto-marca">ARRAIN</p>
+                    <h3>Kit de diagnóstico con espejo</h3>
+                    <p class="producto-estrellas">★★★★★ <span>(48)</span></p>
+                    <div class="producto-compra"><p class="precio"><del>$289</del><br>$249</p><button type="button" class="boton-agregar" aria-label="Agregar al carrito">+</button></div>
+                </div>
+            </article>
+            <article class="producto-tarjeta">
+                <span class="insignia">Nuevo</span>
+                <img src="/img/producto-10108-01.jpg" alt="Jeringa dental">
+                <div class="producto-datos">
+                    <p class="producto-marca">ARRAIN</p>
+                    <h3>Jeringa dental</h3>
+                    <p class="producto-estrellas">★★★★★ <span>(48)</span></p>
+                    <div class="producto-compra"><p class="precio">$2,490</p><button type="button" class="boton-agregar" aria-label="Agregar al carrito">+</button></div>
+                </div>
+            </article>
+            <article class="producto-tarjeta">
+                <img src="/img/producto-10297-01.jpg" alt="Instrumental dental estéril">
+                <div class="producto-datos">
+                    <p class="producto-marca">ARRAIN</p>
+                    <h3>Instrumental dental estéril</h3>
+                    <p class="producto-estrellas">★★★★★ <span>(48)</span></p>
+                    <div class="producto-compra"><p class="precio">$845</p><button type="button" class="boton-agregar" aria-label="Agregar al carrito">+</button></div>
+                </div>
+            </article>
+        </div>
+
+        <ul class="beneficios">
+            <li><strong>Envío nacional</strong><br>Entrega de 24 a 72 h</li>
+            <li><strong>Compra segura</strong><br>Pagos protegidos</li>
+            <li><strong>Cambios simples</strong><br>30 días para devolver</li>
+            <li><strong>Soporte clínico</strong><br>Asesoría especializada</li>
+        </ul>
+    </section>
+
+    <section class="newsletter">
+        <div>
+            <h2>Novedades útiles, sin ruido.</h2>
+            <p>Recibe lanzamientos, recursos clínicos y promociones relevantes.</p>
+        </div>
+        <form method="post" action="/suscribir">
+            <label for="correo-newsletter" class="solo-lector">Correo</label>
+            <input type="email" id="correo-newsletter" name="correo" placeholder="tu@correo.com" required>
+            <input type="submit" value="Suscribirme">
+        </form>
+    </section>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+
+</html>
