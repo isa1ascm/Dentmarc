@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es"  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Dentmarc - Iniciar sesión</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+    <link rel="stylesheet" href="../static/style-form.css" th:href="@{/style-form.css}">
+</head>
+
+<body class="fondo-claro">
+<main class="auth-container">
+    <section class="auth-marca">
+        <img src="../img/logo-oscuro.png" alt="Dentmarc Depósito Dental">
+        <div>
+            <p class="etiqueta">✓ La tienda de confianza para profesionales dentales</p>
+            <h2>Todo para tu práctica, en un solo lugar.</h2>
+            <p>Accede a precios profesionales, recompra rápida y seguimiento de pedidos para tu consultorio.</p>
+        </div>
+        <ul class="auth-datos">
+            <li>+8,000 productos</li>
+            <li>Entrega 24–72 h</li>
+            <li>Soporte experto</li>
+        </ul>
+    </section>
+
+    <section class="auth-card">
+        <div class="auth-enlaces"><a href="/inicio">← Volver a la tienda</a></div>
+        <h1>Bienvenido de nuevo</h1>
+        <p class="auth-ayuda">Inicia sesión para continuar con tus compras profesionales.</p>
+        <form method="post" action="/autenticacion">
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" placeholder="nombre@clinica.mx" required>
+            <label for="contrasenia">Contraseña</label>
+            <input type="password" id="contrasenia" name="contrasenia" placeholder="Ingresa tu contraseña" required>
+            <div class="auth-enlaces">
+                <label class="fila-check" for="sesion"><input type="checkbox" id="sesion" name="chk_sesion" value="mantener"> Mantener mi sesión</label>
+            </div>
+            <input type="submit" value="→ Iniciar sesión">
+        </form>
+        <p class="auth-pie">¿Aún no tienes cuenta? <a href="/registro">Crear cuenta profesional</a></p>
+        <p class="auth-ayuda">Al continuar aceptas los Términos de servicio y el Aviso de privacidad.</p>
+    </section>
+</main>
+</body>
+
+</html>
