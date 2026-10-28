@@ -6,11 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Dentmarc - Iniciar sesión</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles.css">
-    <link rel="stylesheet" href="../static/style-form.css">
+
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+    <link rel="stylesheet" href="../static/style-form.css" th:href="@{/style-form.css}">
+
 </head>
 
-<body>
+<body class="fondo-claro">
 <main class="auth-container">
     <section class="auth-marca">
         <img src="../img/logo-oscuro.png" alt="Dentmarc Depósito Dental">
@@ -27,7 +29,7 @@
     </section>
 
     <section class="auth-card">
-        <div class="auth-enlaces"><a href="/inicio">← Volver a la tienda</a><a href="/ayuda">¿Necesitas ayuda?</a></div>
+        <div class="auth-enlaces"><a href="/inicio">← Volver a la tienda</a></div>
         <h1>Bienvenido de nuevo</h1>
         <p class="auth-ayuda">Inicia sesión para continuar con tus compras profesionales.</p>
         <form method="post" action="/autenticacion">
@@ -37,11 +39,8 @@
             <input type="password" id="contrasenia" name="contrasenia" placeholder="Ingresa tu contraseña" required>
             <div class="auth-enlaces">
                 <label class="fila-check" for="sesion"><input type="checkbox" id="sesion" name="chk_sesion" value="mantener"> Mantener mi sesión</label>
-                <a href="/recuperar">Olvidé mi contraseña</a>
             </div>
             <input type="submit" value="→ Iniciar sesión">
-            <p class="auth-pie">O continúa con</p>
-            <a href="/google" class="boton boton-claro" style="display:block;text-align:center">Continuar con Google</a>
         </form>
         <p class="auth-pie">¿Aún no tienes cuenta? <a href="/registro">Crear cuenta profesional</a></p>
         <p class="auth-ayuda">Al continuar aceptas los Términos de servicio y el Aviso de privacidad.</p>

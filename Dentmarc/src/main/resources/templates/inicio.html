@@ -6,11 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Dentmarc - Inicio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles.css">
-    <link rel="stylesheet" href="../static/style-inicio.css">
+
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+    <link rel="stylesheet" href="../static/style-inicio.css" th:href="@{/style-inicio.css}">
+
 </head>
 
-<body>
+<body class="fondo-claro">
 <header th:replace="~{fragmentos :: encabezado}"></header>
 
 <main>
@@ -20,7 +22,6 @@
             <h1>Precisión clínica, compras sin complicaciones.</h1>
             <p class="portada-descripcion">Insumos, instrumental y equipamiento seleccionados para acompañar cada procedimiento.</p>
             <a href="/categorias" class="boton">→ Explorar catálogo</a>
-            <a href="/asesoria" class="boton boton-claro">Hablar con un asesor</a>
         </div>
         <div class="portada-imagen">
             <img src="/img/hero-consultorio.jpg" alt="Consultorio dental equipado">
