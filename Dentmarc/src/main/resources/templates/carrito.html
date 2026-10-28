@@ -6,11 +6,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Dentmarc - Carrito</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/styles.css">
-    <link rel="stylesheet" href="../static/carrito.css">
+
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+    <link rel="stylesheet" href="../static/carrito.css" th:href="@{/carrito.css}">
+
 </head>
 
-<body>
+<body class="fondo-claro">
 <header th:replace="~{fragmentos :: encabezado}"></header>
 
 <main class="carrito-contenedor">
@@ -39,7 +41,7 @@
                     <input type="number" name="num_cantidad" value="2" min="1" aria-label="Cantidad">
                     <button type="button" aria-label="Agregar uno">+</button>
                 </form>
-                <div class="carrito-total"><p>$2,578.00</p><a th:href="@{/carrito/quitar}" class="quitar">Quitar</a></div>
+                <div class="carrito-total"><p>$2,578.00</p><a href="#" class="quitar">Quitar</a></div>
             </article>
             <article class="carrito-item">
                 <img th:src="@{/img/producto-10103-01.jpg}" alt="Kit de diagnóstico con espejo">
@@ -55,7 +57,7 @@
                     <input type="number" name="num_cantidad" value="3" min="1" aria-label="Cantidad">
                     <button type="button" aria-label="Agregar uno">+</button>
                 </form>
-                <div class="carrito-total"><p>$747.00</p><a th:href="@{/carrito/quitar}" class="quitar">Quitar</a></div>
+                <div class="carrito-total"><p>$747.00</p><a href="#" class="quitar">Quitar</a></div>
             </article>
             <article class="carrito-item">
                 <img th:src="@{/img/producto-10108-01.jpg}" alt="Jeringa dental">
@@ -71,7 +73,7 @@
                     <input type="number" name="num_cantidad" value="1" min="1" aria-label="Cantidad">
                     <button type="button" aria-label="Agregar uno">+</button>
                 </form>
-                <div class="carrito-total"><p>$845.00</p><a th:href="@{/carrito/quitar}" class="quitar">Quitar</a></div>
+                <div class="carrito-total"><p>$845.00</p><a href="#" class="quitar">Quitar</a></div>
             </article>
         </section>
 
@@ -85,7 +87,7 @@
             <div class="resumen-total"><strong>Total</strong><p>$4,170.00 <span>MXN</span></p></div>
             <p class="existencia">✓ Tu pedido tiene envío gratis</p>
             <progress value="100" max="100"></progress>
-            <a th:href="@{/pago}" class="boton">→ Continuar al pago</a>
+            <a href="#" class="boton">→ Continuar al pago</a>
             <p class="texto-suave">Pago seguro y protección de datos en cada compra.</p>
         </aside>
 

@@ -4,10 +4,12 @@
 <head>
     <meta charset="utf-8">
     <title>Dentmarc - fragmentos</title>
-    <link rel="stylesheet" href="../static/styles.css">
+
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+
 </head>
 
-<body>
+<body class="fondo-claro">
 <!-- Encabezado compartido: barra superior, buscador, cuenta, carrito y menu -->
 <header th:fragment="encabezado" class="encabezado">
     <div class="barra-superior">
@@ -37,19 +39,12 @@
         <a href="/mas-vendidos">Más vendidos</a>
         <a href="/categorias">Categorías</a>
         <a href="/ofertas">Ofertas</a>
-        <a href="/asesoria" class="menu-asesoria">Asesoría profesional</a>
     </nav>
 </header>
 
 <!-- Pie de pagina compartido -->
 <footer th:fragment="pie" class="pie">
     <img src="/img/logo-oscuro.png" alt="Dentmarc Depósito Dental" class="pie-logo">
-    <ul class="pie-enlaces">
-        <li><a href="/compra-segura">Compra segura</a></li>
-        <li><a href="/envios">Envíos</a></li>
-        <li><a href="/devoluciones">Devoluciones</a></li>
-        <li><a href="/contacto">Contacto</a></li>
-    </ul>
     <div class="pie-derechos">
         <strong>Compra protegida</strong>
         <p>© 2026 Dentmarc Depósito Dental</p>
