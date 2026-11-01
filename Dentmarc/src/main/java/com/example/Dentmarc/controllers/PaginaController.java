@@ -1,4 +1,4 @@
-package com.example.Dentmarc;
+package com.example.Dentmarc.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
