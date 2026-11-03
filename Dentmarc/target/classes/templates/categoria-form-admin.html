@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: layout(~{::title}, ~{::div.contenido}, 'categorias', 'categorias-admin', 'Catálogo', 'Categorías')}">
+<head>
+    <title>Dentmarc - Formulario de categoría</title>
+</head>
+<body>
+<div class="contenido">
+
+    <section class="dashboard-title-bar">
+        <div>
+            <h1 th:text="${categoria.id == null} ? 'Crear categoría' : 'Editar categoría'">Crear categoría</h1>
+            <p class="subtitle">Una categoría oculta no se muestra en la tienda.</p>
+        </div>
+    </section>
+
+    <!-- MISMO FORMULARIO PARA CREAR Y EDITAR -->
+    <section class="form-card">
+        <form th:action="${categoria.id == null} ? @{/admin/categorias/nueva} : @{/admin/categorias/editar/{id}(id=${categoria.id})}" method="post">
+            <div class="form-grid">
+                <div class="form-field">
+                    <label for="nombre">Nombre</label>
+                    <input type="text" id="nombre" name="nombre" th:value="${categoria.nombre}" placeholder="Consumibles" required>
+                </div>
+
+                <div class="form-field">
+                    <label for="icono">Icono</label>
+                    <select id="icono" name="icono">
+                        <option value="fa-tag" th:selected="${categoria.icono == 'fa-tag'}">Etiqueta</option>
+                        <option value="fa-syringe" th:selected="${categoria.icono == 'fa-syringe'}">Jeringa</option>
+                        <option value="fa-stethoscope" th:selected="${categoria.icono == 'fa-stethoscope'}">Estetoscopio</option>
+                        <option value="fa-wand-magic-sparkles" th:selected="${categoria.icono == 'fa-wand-magic-sparkles'}">Varita</option>
+                        <option value="fa-teeth-open" th:selected="${categoria.icono == 'fa-teeth-open'}">Dientes</option>
+                        <option value="fa-heart-pulse" th:selected="${categoria.icono == 'fa-heart-pulse'}">Pulso</option>
+                        <option value="fa-desktop" th:selected="${categoria.icono == 'fa-desktop'}">Equipo</option>
+                        <option value="fa-box" th:selected="${categoria.icono == 'fa-box'}">Caja</option>
+                    </select>
+                </div>
+
+                <div class="form-field form-check completo">
+                    <input type="checkbox" id="activa" name="activa" value="true" th:checked="${categoria.activa}">
+                    <label for="activa">Categoría activa (visible en la tienda)</label>
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-primary-admin">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                    <span>Guardar categoría</span>
+                </button>
+                <a th:href="@{/admin/categorias}" class="btn-secondary-admin">Cancelar</a>
+            </div>
+        </form>
+    </section>
+
+</div>
+</body>
+</html>

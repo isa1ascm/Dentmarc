@@ -101,7 +101,7 @@
             <h2>Novedades útiles, sin ruido.</h2>
             <p>Recibe lanzamientos, recursos clínicos y promociones relevantes.</p>
         </div>
-        <form method="post" action="/suscribir">
+        <form method="post" th:action="@{/suscribir}">
             <label for="correo-newsletter" class="solo-lector">Correo</label>
             <input type="email" id="correo-newsletter" name="correo" placeholder="tu@correo.com" required>
             <input type="submit" value="Suscribirme">

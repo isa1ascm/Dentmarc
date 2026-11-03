@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Dentmarc - Carrito</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles.css}">
+    <link rel="stylesheet" th:href="@{/carrito.css}">
+</head>
+<body class="fondo-claro">
+<header th:replace="~{fragmentos :: encabezado}"></header>
+
+<main class="carrito-contenedor">
+    <p class="ruta"><a th:href="@{/inicio}">Inicio</a> / Carrito</p>
+    <div th:if="${mensaje}" class="auth-ayuda" th:text="${mensaje}"></div>
+    <div th:if="${error}" class="auth-ayuda" th:text="${error}"></div>
+    <div class="carrito-titulo">
+        <div>
+            <h1>Tu carrito</h1>
+            <p class="texto-suave"><span th:text="${totalProductos}">0</span> productos · Revisa cantidades antes de continuar.</p>
+        </div>
+        <a th:href="@{/productos}">← Seguir comprando</a>
+    </div>
+
+    <div class="carrito-columnas">
+        <section class="carrito-lista">
+            <p th:if="${#lists.isEmpty(items)}" class="texto-suave">
+                Tu carrito está vacío. <a th:href="@{/productos}">Explora el catálogo.</a>
+            </p>
+            <article class="carrito-item" th:each="item : ${items}">
+                <img th:src="@{/img/producto-10101-01.jpg}" th:alt="${item['producto'].nombre}">
+                <div class="carrito-item-info">
+                    <p class="producto-marca" th:text="${item['producto'].marca}">Marca</p>
+                    <h3 th:text="${item['producto'].nombre}">Producto</h3>
+                    <p class="texto-suave" th:text="${item['producto'].categoria.nombre}">Categoría</p>
+                    <p class="existencia" th:text="${item['producto'].cantidad > 0 ? '● En existencia' : '● Agotado'}">● En existencia</p>
+                </div>
+                <p class="carrito-precio" th:text="'$' + ${#numbers.formatDecimal(item['producto'].precio, 1, 2)}">$0.00</p>
+                <form class="cantidad" method="post" th:action="@{/carrito/actualizar}">
+                    <input type="hidden" name="idProducto" th:value="${item['producto'].id}">
+                    <input type="number" name="cantidad" th:value="${item['cantidad']}" min="1"
+                           th:max="${item['producto'].cantidad}" aria-label="Cantidad">
+                    <button type="submit" aria-label="Actualizar cantidad">Actualizar</button>
+                </form>
+                <div class="carrito-total">
+                    <p th:text="'$' + ${#numbers.formatDecimal(item['total'], 1, 2)}">$0.00</p>
+                    <form method="post" th:action="@{/carrito/eliminar/{id}(id=${item['producto'].id})}">
+                        <button type="submit" class="quitar">Quitar</button>
+                    </form>
+                </div>
+            </article>
+        </section>
+
+        <aside class="resumen">
+            <h2>Resumen de compra</h2>
+            <dl>
+                <dt>Subtotal</dt><dd th:text="'$' + ${#numbers.formatDecimal(subtotal, 1, 2)}">$0.00</dd>
+                <dt>Envío estándar</dt><dd class="existencia">Gratis</dd>
+            </dl>
+            <div class="resumen-total"><strong>Total</strong><p th:text="'$' + ${#numbers.formatDecimal(subtotal, 1, 2)} + ' MXN'">$0.00 MXN</p></div>
+            <p class="existencia">✓ Tu pedido tiene envío gratis</p>
+            <a th:href="@{/cuenta}" class="boton">→ Continuar al pago</a>
+            <p class="texto-suave">Inicia sesión para continuar con tu pedido.</p>
+        </aside>
+
+        <section class="carrito-extras">
+            <form method="post" th:action="@{/carrito/cupon}" class="tarjeta-extra">
+                <h3>¿Tienes un cupón?</h3>
+                <label for="cupon" class="solo-lector">Cupón</label>
+                <input type="text" id="cupon" name="txt_cupon" placeholder="Ingresa tu código">
+                <input type="submit" value="Aplicar" class="boton-claro">
+            </form>
+            <form method="post" th:action="@{/carrito/envio}" class="tarjeta-extra">
+                <h3>Calcular envío</h3>
+                <label for="cp" class="solo-lector">Código postal</label>
+                <input type="text" id="cp" name="txt_cp" placeholder="Código postal · 06700" pattern="[0-9]{5}" required>
+                <input type="submit" value="Calcular" class="boton-claro">
+            </form>
+        </section>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>
