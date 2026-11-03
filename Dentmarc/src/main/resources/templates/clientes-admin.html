@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: layout(~{::title}, ~{::div.contenido}, 'clientes', 'productos-admin', 'Comercial', 'Clientes')}">
+<head>
+    <title>Dentmarc - Clientes</title>
+</head>
+<body>
+<div class="contenido">
+
+    <section class="dashboard-title-bar">
+        <div>
+            <h1>Clientes</h1>
+            <p class="subtitle">Profesionales dentales registrados en la tienda.</p>
+        </div>
+    </section>
+
+    <form class="filters-bar" th:action="@{/admin/clientes}" method="get">
+        <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" name="buscar" th:value="${buscar}" placeholder="Buscar por nombre o correo..." class="search-input">
+        </div>
+
+        <div class="filter-dropdowns">
+            <button type="submit" class="btn-secondary-admin">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Buscar</span>
+            </button>
+            <a th:href="@{/admin/clientes}" class="btn-secondary-admin">
+                <span>Limpiar</span>
+            </a>
+        </div>
+    </form>
+
+    <section class="table-card">
+        <div class="table-responsive">
+            <table class="products-table">
+                <thead>
+                <tr>
+                    <th>CLIENTE</th>
+                    <th>CORREO</th>
+                    <th>TELÉFONO</th>
+                    <th>TIPO DE PRÁCTICA</th>
+                    <th>EN CARRITO</th>
+                    <th class="text-right">ACCIONES</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cliente : ${clientes}">
+                    <td>
+                        <div class="product-cell">
+                            <div class="product-icon-box"><i class="fa-solid fa-user"></i></div>
+                            <div class="product-details">
+                                <span class="product-title" th:text="${cliente.nombre + ' ' + cliente.apellidos}">Mariana López</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td th:text="${cliente.email}">mariana@clinicadental.mx</td>
+                    <td th:text="${cliente.telefono}">55 1234 5678</td>
+                    <td th:text="${#strings.capitalize(#strings.toLowerCase(cliente.tipoPractica.name()))}">Clinica</td>
+                    <td th:text="${cliente.carrito == null ? 0 : #lists.size(cliente.carrito)} + ' productos'">0 productos</td>
+                    <td>
+                        <div class="actions-cell">
+                            <form th:action="@{/admin/clientes/eliminar/{id}(id=${cliente.id})}" method="post"
+                                  onsubmit="return confirm('¿Seguro que deseas eliminar este cliente?');">
+                                <button type="submit" class="btn-action delete" title="Eliminar"><i class="fa-regular fa-trash-can"></i></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(clientes)}">
+                    <td colspan="6" class="mensaje-vacio">No se encontraron clientes.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-footer">
+            <span class="pagination-info" th:text="'Mostrando ' + ${#lists.size(clientes)} + ' clientes'">Mostrando 3 clientes</span>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

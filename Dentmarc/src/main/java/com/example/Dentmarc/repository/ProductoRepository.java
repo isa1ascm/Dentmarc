@@ -1,7 +1,7 @@
 package com.example.Dentmarc.repository;
 
+import com.example.Dentmarc.models.Categoria;
 import com.example.Dentmarc.models.Producto;
-import com.example.Dentmarc.models.enums.CategoriaProducto;
 import com.example.Dentmarc.models.enums.EstadoProducto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -17,5 +17,15 @@ public interface ProductoRepository extends JpaRepository<Producto, Long> {
 
     List<Producto> findByEstadoProducto(EstadoProducto estadoProducto);
 
-    List<Producto> findByCategoriaProducto(CategoriaProducto categoriaProducto);
+    // Antes era findByCategoriaProducto(CategoriaProducto): la categoria ahora es una entidad
+    List<Producto> findByCategoria(Categoria categoria);
+
+    List<Producto> findAllByOrderByIdDesc();
+
+    long countByEstadoProducto(EstadoProducto estadoProducto);
+
+    long countByCategoria_Id(Long idCategoria);
+
+    // Productos que necesitan reposicion (los que menos stock tienen primero)
+    List<Producto> findTop4ByEstadoProductoNotOrderByCantidadAsc(EstadoProducto estadoProducto);
 }
