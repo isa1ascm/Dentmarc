@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: layout(~{::title}, ~{::div.contenido}, 'resumen', 'resumen', 'General', 'Resumen')}">
+<head>
+    <title>Dentmarc - Resumen administrador</title>
+</head>
+<body>
+<div class="contenido">
+
+    <section class="dashboard-title-bar">
+        <div>
+            <h1>Resumen del negocio</h1>
+            <p class="subtitle">Estado del catálogo e inventario al <span th:text="${#temporals.format(hoy, 'dd/MM/yyyy')}">10/10/2026</span>.</p>
+        </div>
+    </section>
+
+    <!-- TARJETAS KPI -->
+    <section class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-icon blue-bg"><i class="fa-solid fa-box"></i></div>
+            <div class="kpi-data">
+                <span class="kpi-label">Productos registrados</span>
+                <div class="kpi-value"><span th:text="${totalProductos}">0</span> <small class="sub-info" th:text="${totalCategorias} + ' categorías'">6 categorías</small></div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon teal-bg"><i class="fa-solid fa-cubes"></i></div>
+            <div class="kpi-data">
+                <span class="kpi-label">Unidades en inventario</span>
+                <div class="kpi-value"><span th:text="${#numbers.formatInteger(unidades, 1, 'COMMA')}">0</span> <small class="sub-info">disponibles</small></div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon green-bg"><i class="fa-solid fa-dollar-sign"></i></div>
+            <div class="kpi-data">
+                <span class="kpi-label">Valor del inventario</span>
+                <div class="kpi-value"><span th:text="'$' + ${#numbers.formatDecimal(valorInventario, 1, 'COMMA', 2, 'POINT')}">$0.00</span> <small class="sub-info">MXN</small></div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon orange-bg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="kpi-data">
+                <span class="kpi-label">Productos con alerta</span>
+                <div class="kpi-value"><span th:text="${conAlerta}">0</span> <small class="growth warning" th:text="${agotados} + ' agotados'">Requieren atención</small></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTENIDO INTERMEDIO -->
+    <section class="dashboard-middle-grid">
+        <div class="admin-card chart-card">
+            <div class="card-header-flex">
+                <div>
+                    <h3>Productos por categoría</h3>
+                    <span class="muted-text" th:text="${totalProductos} + ' productos en el catálogo'">10 productos en el catálogo</span>
+                </div>
+                <span class="badge-pill green-pill" th:text="${totalClientes} + ' clientes'">3 clientes</span>
+            </div>
+            <div class="chart-bars-container">
+                <div class="chart-bar-wrapper" th:each="categoria : ${categorias}">
+                    <div class="chart-bar"
+                         th:style="'height: ' + (${maximoCategoria == 0} ? 0 : ${#lists.size(categoria.productos) * 100 / maximoCategoria}) + '%;'"></div>
+                    <span th:text="${categoria.nombre}">Categoría</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="card-header-flex">
+                <h3>Alertas de inventario</h3>
+                <a th:href="@{/admin/inventario}" class="link-action">Ver todo</a>
+            </div>
+            <ul class="inventory-alerts-list">
+                <li th:each="alerta : ${alertas}">
+                    <div class="item-icon-box" th:classappend="${alerta.estadoProducto.name() == 'AGOTADO'} ? 'red-icon'"><i class="fa-solid fa-box"></i></div>
+                    <span class="item-name" th:text="${alerta.nombre}">Guantes Ambiderm M</span>
+                    <span class="item-qty" th:classappend="${alerta.estadoProducto.name() == 'AGOTADO'} ? 'red-text'" th:text="${alerta.cantidad} + ' uds.'">18 uds.</span>
+                </li>
+                <li th:if="${#lists.isEmpty(alertas)}">
+                    <span class="item-name">Sin alertas: todo el inventario está en orden.</span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- CONTENIDO INFERIOR -->
+    <section class="dashboard-bottom-grid">
+        <div class="admin-card">
+            <div class="card-header-flex">
+                <h3>Clientes recientes</h3>
+                <a th:href="@{/admin/clientes}" class="link-action">Ver clientes &rarr;</a>
+            </div>
+            <div class="dashboard-table-container">
+                <table class="dashboard-table">
+                    <tbody>
+                    <tr th:each="cliente : ${clientes}">
+                        <td><strong th:text="${cliente.nombre + ' ' + cliente.apellidos}">Mariana López</strong></td>
+                        <td th:text="${cliente.email}">mariana@clinicadental.mx</td>
+                        <td th:text="${#strings.capitalize(#strings.toLowerCase(cliente.tipoPractica.name()))}">Clinica</td>
+                        <td><span class="badge-status green-status">&bull; Cliente</span></td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(clientes)}">
+                        <td>Aún no hay clientes registrados.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="card-header-flex">
+                <h3>Movimientos recientes</h3>
+            </div>
+            <ul class="activity-timeline">
+                <li th:each="movimiento : ${movimientos}">
+                    <div class="activity-avatar"></div>
+                    <div class="activity-info">
+                        <strong th:text="${movimiento.producto.nombre}">Guantes nitrilo azul</strong>
+                        <span th:text="${movimiento.tipo.name() == 'ENTRADA' ? 'Entrada' : (movimiento.tipo.name() == 'SALIDA' ? 'Salida' : 'Ajuste')} + ' ' + ${movimiento.cantidad > 0 ? '+' : ''} + ${movimiento.cantidad}">Entrada +24</span>
+                    </div>
+                    <time th:text="${#temporals.format(movimiento.fecha, 'dd/MM HH:mm')}">10:42</time>
+                </li>
+                <li th:if="${#lists.isEmpty(movimientos)}">
+                    <div class="activity-info"><span>Aún no hay movimientos de inventario.</span></div>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>

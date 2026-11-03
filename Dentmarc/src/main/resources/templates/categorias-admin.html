@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/admin :: layout(~{::title}, ~{::div.contenido}, 'categorias', 'categorias-admin', 'Catálogo', 'Categorías')}">
+<head>
+    <title>Dentmarc - Gestión de Categorías</title>
+</head>
+<body>
+<div class="contenido">
+
+    <section class="dashboard-title-bar">
+        <div>
+            <h1>Gestión de categorías</h1>
+            <p class="subtitle">Organiza la navegación y visibilidad del catálogo.</p>
+        </div>
+        <a th:href="@{/admin/categorias/nueva}" class="btn-primary-admin">
+            <i class="fa-solid fa-plus"></i>
+            <span>Crear categoría</span>
+        </a>
+    </section>
+
+    <section class="kpi-grid-categories">
+        <div class="kpi-card">
+            <div class="kpi-icon blue-light-bg"><i class="fa-solid fa-tag"></i></div>
+            <div class="kpi-data">
+                <span class="kpi-label">Categorías activas</span>
+                <div class="kpi-value"><span th:text="${activas}">0</span> <small class="kpi-sub-text text-muted">Visibles en la tienda</small></div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon blue-light-bg"><i class="fa-solid fa-box"></i></div>
+            <div class="kpi-data">
+                <span class="kpi-label">Productos asignados</span>
+                <div class="kpi-value"><span th:text="${totalProductos}">0</span> <small class="kpi-sub-text text-teal">Todos con categoría</small></div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon orange-light-bg"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <div class="kpi-data">
+                <span class="kpi-label">Productos con alerta</span>
+                <div class="kpi-value"><span th:text="${conAlerta}">0</span> <small class="kpi-sub-text text-orange">Stock bajo o agotado</small></div>
+            </div>
+        </div>
+
+        <div class="kpi-card">
+            <div class="kpi-icon red-light-bg"><i class="fa-regular fa-eye-slash"></i></div>
+            <div class="kpi-data">
+                <span class="kpi-label">Categorías ocultas</span>
+                <div class="kpi-value"><span th:text="${#lists.size(ocultas)}">0</span>
+                    <small class="kpi-sub-text text-red" th:text="${#lists.isEmpty(ocultas)} ? 'Ninguna' : ${#strings.listJoin(ocultas.![nombre], ', ')}">Ninguna</small></div>
+            </div>
+        </div>
+    </section>
+
+    <form class="filters-bar" th:action="@{/admin/categorias}" method="get">
+        <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" name="buscar" th:value="${buscar}" placeholder="Buscar categoría..." class="search-input">
+        </div>
+
+        <div class="filter-dropdowns">
+            <select name="estado" class="filter-select" onchange="this.form.submit()">
+                <option value="">Estado: Todas</option>
+                <option value="activas" th:selected="${estadoSeleccionado == 'activas'}">Activas</option>
+                <option value="ocultas" th:selected="${estadoSeleccionado == 'ocultas'}">Ocultas</option>
+            </select>
+
+            <button type="submit" class="btn-secondary-admin">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <span>Buscar</span>
+            </button>
+            <a th:href="@{/admin/categorias}" class="btn-secondary-admin">
+                <span>Limpiar</span>
+            </a>
+        </div>
+    </form>
+
+    <section class="table-card">
+        <div class="table-responsive">
+            <table class="categories-table">
+                <thead>
+                <tr>
+                    <th>CATEGORÍA</th>
+                    <th class="text-right">PRODUCTOS</th>
+                    <th class="text-right">ACTIVOS</th>
+                    <th class="text-right">CON ALERTA</th>
+                    <th>ESTADO</th>
+                    <th class="text-right">ACCIONES</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="categoria : ${categorias}"
+                    th:with="activosCategoria=${#lists.size(categoria.productos.?[estadoProducto.name() == 'ACTIVO'])}">
+                    <td>
+                        <div class="category-cell">
+                            <div class="category-icon-box"><i th:class="'fa-solid ' + ${categoria.icono}"></i></div>
+                            <div class="category-details">
+                                <span class="category-title" th:text="${categoria.nombre}">Consumibles</span>
+                                <span class="slug-text" th:text="'/' + ${#strings.toLowerCase(categoria.nombre)}">/consumibles</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-right font-bold" th:text="${#lists.size(categoria.productos)}">0</td>
+                    <td class="text-right text-teal font-semibold" th:text="${activosCategoria}">0</td>
+                    <td class="text-right text-muted" th:text="${#lists.size(categoria.productos) - activosCategoria}">0</td>
+                    <td>
+                        <span th:if="${categoria.activa}" class="badge-status badge-active">&bull; Activa</span>
+                        <span th:unless="${categoria.activa}" class="badge-status badge-draft">&bull; Oculta</span>
+                    </td>
+                    <td>
+                        <div class="actions-cell">
+                            <a th:href="@{/admin/categorias/editar/{id}(id=${categoria.id})}" class="btn-action edit" title="Editar"><i class="fa-solid fa-pen"></i></a>
+                            <form th:action="@{/admin/categorias/eliminar/{id}(id=${categoria.id})}" method="post"
+                                  onsubmit="return confirm('¿Seguro que deseas eliminar esta categoría?');">
+                                <button type="submit" class="btn-action delete" title="Eliminar"><i class="fa-regular fa-trash-can"></i></button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(categorias)}">
+                    <td colspan="6" class="mensaje-vacio">No se encontraron categorías.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="table-footer">
+            <span class="pagination-info" th:text="'Mostrando ' + ${#lists.size(categorias)} + ' categorías'">Mostrando 6 categorías</span>
+        </div>
+    </section>
+
+</div>
+</body>
+</html>
