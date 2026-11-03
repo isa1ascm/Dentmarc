@@ -20,7 +20,8 @@
         <h1>Crea tu cuenta Dentmarc</h1>
         <p class="auth-ayuda">Compra más rápido, guarda listas y accede a beneficios para tu práctica.</p>
         <div class="auth-barra"></div>
-        <form method="post" action="/crear-cuenta">
+        <div th:if="${error}" class="auth-ayuda" th:text="${error}"></div>
+        <form method="post" th:action="@{/crear-cuenta}">
             <div class="dos-columnas">
                 <div>
                     <label for="nombre">Nombre</label>
@@ -36,7 +37,7 @@
             <div class="dos-columnas">
                 <div>
                     <label for="telefono">Teléfono</label>
-                    <input type="tel" id="telefono" name="tel_telefono" placeholder="55 1234 5678" pattern="[0-9 ]{10,14}">
+                    <input type="tel" id="telefono" name="tel_telefono" placeholder="55 1234 5678" pattern="[0-9 ]{10,14}" required>
                 </div>
                 <div>
                     <label for="practica">Tipo de práctica</label>

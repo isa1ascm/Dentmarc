@@ -20,6 +20,6 @@ Panel web independiente (Spring Boot + Thymeleaf) en `/admin`, protegido con Spr
 | Administrador | `admin@dentmarc.mx` | `Admin123!` |
 | Cliente | `mariana@clinicadental.mx` | `Cliente123!` |
 
-**Documentación:** [`docs/modelo-de-datos.md`](docs/modelo-de-datos.md) (justificación SQL, UML y modelo entidad–relación) y [`docs/guion-video.md`](docs/guion-video.md).
+**Documentación:** [`Dentmarc/docs/modelo-de-datos.md`](Dentmarc/docs/modelo-de-datos.md) contiene la justificación de SQL, el diagrama UML y el modelo entidad–relación.
 
 > CSRF está habilitado en toda la aplicación: los formularios con método POST deben usar `th:action` para que Thymeleaf agregue el token.

@@ -14,21 +14,22 @@
         <p class="ruta"><a th:href="@{/inicio}">Inicio</a> / <a href="#">Categorías</a> / Consumibles</p>
         <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
             <div style="width: 50px; height: 50px; background: var(--color-primario); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📦</div>
-            <h1 style="font-size: 2rem; margin: 0; color: var(--color-secundario);">Consumibles</h1>
+            <h1 style="font-size: 2rem; margin: 0; color: var(--color-secundario);">Catálogo por categorías</h1>
         </div>
         <p class="texto-suave">Materiales de uso diario indispensables para el funcionamiento de tu clínica dental.</p>
     </div>
 
     <div class="pildoras-nav">
-        <a href="#" class="pildora activa">Todos</a>
-        <a href="#" class="pildora">Algodones y gasas</a>
-        <a href="#" class="pildora">Agujas y jeringas</a>
-        <a href="#" class="pildora">Barreras de control</a>
-        <a href="#" class="pildora">Vasos y baberos</a>
+        <a th:href="@{/categorias}" class="pildora" th:classappend="${categoriaSeleccionada == null} ? ' activa'">Todos</a>
+        <a th:each="categoria : ${categorias}"
+           th:href="@{/categorias(categoria=${categoria.id})}"
+           class="pildora"
+           th:classappend="${categoriaSeleccionada == categoria.id} ? ' activa'"
+           th:text="${categoria.nombre}">Categoría</a>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem;">
-        <p><strong>156 productos</strong> en Consumibles</p>
+        <p><strong th:text="${#lists.size(productos)}">0</strong> productos disponibles</p>
         <select style="padding: 5px; border-radius: 4px; border: 1px solid var(--color-borde); color: var(--color-secundario);">
             <option>Popularidad</option>
             <option>Menor a mayor precio</option>
@@ -47,22 +48,26 @@
         </aside>
 
         <section class="grilla-productos">
-            <article class="producto-tarjeta">
+            <article class="producto-tarjeta" th:each="producto : ${productos}">
                 <div class="tarjeta-imagen">
                     <span class="badge teal">Top 10</span>
                     <button class="btn-favorito">♡</button>
-                    <img src="https://via.placeholder.com/300x250/d2eeea/007A8D?text=Baberos" alt="Baberos Dentales">
+                    <img th:src="@{/img/producto-10103-01.jpg}" th:alt="${producto.nombre}">
                 </div>
                 <div class="tarjeta-info">
-                    <div class="marca-fecha"><span>ZEYCO</span></div>
-                    <h3>Baberos dentales plastificados · 500 pzas</h3>
-                    <div style="color: #F6AD55; font-size: 0.8rem; margin-bottom: 10px;">★★★★★ <span style="color:#A0AEC0">(89)</span></div>
+                    <div class="marca-fecha"><span th:text="${producto.marca}">Marca</span></div>
+                    <h3 th:text="${producto.nombre}">Producto</h3>
+                    <div style="color: #F6AD55; font-size: 0.8rem; margin-bottom: 10px;">Disponible</div>
                     <div class="precio-accion">
-                        <span class="precio">$345</span>
-                        <button class="btn-agregar">+</button>
+                        <span class="precio" th:text="'$' + ${#numbers.formatDecimal(producto.precio, 1, 2)}">$0.00</span>
+                        <form method="post" th:action="@{/carrito/agregar/{id}(id=${producto.id})}">
+                            <input type="hidden" name="cantidad" value="1">
+                            <button class="btn-agregar" type="submit" th:disabled="${producto.cantidad == 0}">+</button>
+                        </form>
                     </div>
                 </div>
             </article>
+            <p th:if="${#lists.isEmpty(productos)}">No hay productos en esta categoría.</p>
         </section>
     </div>
 </main>

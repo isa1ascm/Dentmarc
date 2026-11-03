@@ -32,7 +32,8 @@
         <div class="auth-enlaces"><a href="/inicio">← Volver a la tienda</a></div>
         <h1>Bienvenido de nuevo</h1>
         <p class="auth-ayuda">Inicia sesión para continuar con tus compras profesionales.</p>
-        <form method="post" action="/autenticacion">
+        <div th:if="${error}" class="auth-ayuda" th:text="${error}"></div>
+        <form method="post" th:action="@{/autenticacion}">
             <label for="correo">Correo electrónico</label>
             <input type="email" id="correo" name="correo" placeholder="nombre@clinica.mx" required>
             <label for="contrasenia">Contraseña</label>
