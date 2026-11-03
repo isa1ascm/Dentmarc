@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consumibles - Dentmarc</title>
+    <link rel="stylesheet" href="../static/styles.css" th:href="@{/styles.css}">
+</head>
+<body class="fondo-claro">
+<header th:replace="~{fragmentos :: encabezado}"></header>
+
+<main class="contenedor-principal">
+    <div style="margin: 20px 0 30px 0;">
+        <p class="ruta"><a th:href="@{/inicio}">Inicio</a> / <a href="#">Categorías</a> / Consumibles</p>
+        <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 10px;">
+            <div style="width: 50px; height: 50px; background: var(--color-primario); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📦</div>
+            <h1 style="font-size: 2rem; margin: 0; color: var(--color-secundario);">Catálogo por categorías</h1>
+        </div>
+        <p class="texto-suave">Materiales de uso diario indispensables para el funcionamiento de tu clínica dental.</p>
+    </div>
+
+    <div class="pildoras-nav">
+        <a th:href="@{/categorias}" class="pildora" th:classappend="${categoriaSeleccionada == null} ? ' activa'">Todos</a>
+        <a th:each="categoria : ${categorias}"
+           th:href="@{/categorias(categoria=${categoria.id})}"
+           class="pildora"
+           th:classappend="${categoriaSeleccionada == categoria.id} ? ' activa'"
+           th:text="${categoria.nombre}">Categoría</a>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; font-size: 0.9rem;">
+        <p><strong th:text="${#lists.size(productos)}">0</strong> productos disponibles</p>
+        <select style="padding: 5px; border-radius: 4px; border: 1px solid var(--color-borde); color: var(--color-secundario);">
+            <option>Popularidad</option>
+            <option>Menor a mayor precio</option>
+        </select>
+    </div>
+
+    <div class="layout-catalogo">
+        <aside class="filtros tarjeta-cuenta" style="height: fit-content;">
+            <div style="margin-bottom: 20px;">
+                <h4 style="margin: 0 0 10px 0; font-size: 0.95rem;">Marca destacada</h4>
+                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; cursor: pointer;"><input type="checkbox"> Ambiderm <span style="float: right; color: #A0AEC0;">45</span></label>
+                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; cursor: pointer;"><input type="checkbox"> 3M <span style="float: right; color: #A0AEC0;">28</span></label>
+                <label style="display: block; margin-bottom: 8px; font-size: 0.9rem; cursor: pointer;"><input type="checkbox"> Zeyco <span style="float: right; color: #A0AEC0;">15</span></label>
+            </div>
+            <button class="btn-agregar" style="width: 100%; height: 40px; margin-top: 10px; font-size: 1rem; font-weight: bold;">Filtrar consumibles</button>
+        </aside>
+
+        <section class="grilla-productos">
+            <article class="producto-tarjeta" th:each="producto : ${productos}">
+                <div class="tarjeta-imagen">
+                    <span class="badge teal">Top 10</span>
+                    <button class="btn-favorito">♡</button>
+                    <img th:src="@{/img/producto-10103-01.jpg}" th:alt="${producto.nombre}">
+                </div>
+                <div class="tarjeta-info">
+                    <div class="marca-fecha"><span th:text="${producto.marca}">Marca</span></div>
+                    <h3 th:text="${producto.nombre}">Producto</h3>
+                    <div style="color: #F6AD55; font-size: 0.8rem; margin-bottom: 10px;">Disponible</div>
+                    <div class="precio-accion">
+                        <span class="precio" th:text="'$' + ${#numbers.formatDecimal(producto.precio, 1, 2)}">$0.00</span>
+                        <form method="post" th:action="@{/carrito/agregar/{id}(id=${producto.id})}">
+                            <input type="hidden" name="cantidad" value="1">
+                            <button class="btn-agregar" type="submit" th:disabled="${producto.cantidad == 0}">+</button>
+                        </form>
+                    </div>
+                </div>
+            </article>
+            <p th:if="${#lists.isEmpty(productos)}">No hay productos en esta categoría.</p>
+        </section>
+    </div>
+</main>
+
+<footer th:replace="~{fragmentos :: pie}"></footer>
+</body>
+</html>
