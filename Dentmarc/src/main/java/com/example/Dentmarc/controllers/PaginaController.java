@@ -21,11 +21,6 @@ public class PaginaController {
 		return "login";
 	}
 
-	@GetMapping("/login-admin")
-	public String loginAdmin() {
-		return "login-admin";
-	}
-
 	@GetMapping("/registro")
 	public String registro() {
 		return "registro";
@@ -54,26 +49,6 @@ public class PaginaController {
 	@GetMapping("/cuenta")
 	public String cuenta() {
 		return "cuenta";
-	}
-
-	@GetMapping("/admin/resumen")
-	public String resumen() {
-		return "resumen";
-	}
-
-	@GetMapping("/admin/inventario")
-	public String inventario() {
-		return "inventario";
-	}
-
-	@GetMapping("/admin/productos")
-	public String productosAdmin() {
-		return "productos-admin";
-	}
-
-	@GetMapping("/admin/categorias")
-	public String categoriasAdmin() {
-		return "categorias-admin";
 	}
 
 }
