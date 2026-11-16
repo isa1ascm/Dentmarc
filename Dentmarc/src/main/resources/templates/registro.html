@@ -20,8 +20,8 @@
         <h1>Crea tu cuenta Dentmarc</h1>
         <p class="auth-ayuda">Compra más rápido, guarda listas y accede a beneficios para tu práctica.</p>
         <div class="auth-barra"></div>
-        <div th:if="${error}" class="auth-ayuda" th:text="${error}"></div>
-        <form method="post" th:action="@{/crear-cuenta}">
+        <p id="auth-message" class="auth-ayuda" aria-live="polite" hidden></p>
+        <form id="register-form" method="post" th:action="@{/crear-cuenta}">
             <div class="dos-columnas">
                 <div>
                     <label for="nombre">Nombre</label>
@@ -73,6 +73,8 @@
         </ul>
     </section>
 </main>
+<script th:src="@{/storefront-api.js}" defer></script>
+<script th:src="@{/storefront-auth.js}" defer></script>
 </body>
 
 </html>

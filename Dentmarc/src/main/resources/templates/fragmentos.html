@@ -28,8 +28,8 @@
             <input type="search" name="txt_busqueda" placeholder="Buscar productos, marcas o especialidades...">
             <input type="submit" value="Buscar">
         </form>
-        <a href="/login" class="encabezado-cuenta">Mi cuenta</a>
-        <a href="/carrito" class="encabezado-carrito">Carrito <span class="contador">3</span></a>
+        <a href="/cuenta" class="encabezado-cuenta">Mi cuenta</a>
+        <a href="/carrito" class="encabezado-carrito">Carrito <span class="contador" data-cart-count>0</span></a>
     </div>
     <!-- Menu movil: se abre con el checkbox, sin JavaScript -->
     <input type="checkbox" id="menu-movil" class="menu-check">
@@ -40,6 +40,7 @@
         <a href="/categorias">Categorías</a>
         <a href="/ofertas">Ofertas</a>
     </nav>
+    <script th:src="@{/storefront-api.js}" defer></script>
 </header>
 
 <!-- Pie de pagina compartido -->
