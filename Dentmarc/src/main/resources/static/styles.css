@@ -33,6 +33,7 @@ body.fondo-claro {
     grid-template-columns: 240px 1fr;
     gap: 30px;
 }
+.layout-catalogo.catalogo-sin-filtros { grid-template-columns: minmax(0, 1fr); }
 
 /* Banner de Ofertas */
 .banner-ofertas {
@@ -131,6 +132,13 @@ body.fondo-claro {
 .tarjeta-cuenta-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
 .tarjeta-cuenta-header h3 { margin: 0; font-size: 1.1rem; }
 .link-accion { color: var(--color-primario); text-decoration: none; font-size: 0.85rem; font-weight: bold; }
+.api-error { color: var(--rojo-estado); }
+.api-product-detail { display: inline-block; margin-top: 12px; border: 0; background: transparent; padding: 0; cursor: pointer; }
+.product-image-placeholder { color: var(--color-primario); font-size: 3rem; font-weight: 600; }
+.producto-imagen-placeholder { height: 200px; display: flex; align-items: center; justify-content: center; background: var(--color-suave); color: var(--color-primario); font-size: 3rem; font-weight: 600; }
+.product-detail-dialog { width: min(520px, calc(100% - 32px)); border: 1px solid var(--color-borde); border-radius: 12px; padding: 24px; color: var(--color-secundario); }
+.product-detail-dialog::backdrop { background: rgba(26, 43, 76, 0.5); }
+.product-detail-dialog button { float: right; border: 0; background: transparent; font-size: 1.5rem; cursor: pointer; }
 
 /* Historial de Pedidos */
 .tabla-pedidos { width: 100%; border-collapse: collapse; background: var(--blanco); border-radius: 12px; overflow: hidden; border: 1px solid var(--color-borde); }

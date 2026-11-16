@@ -32,8 +32,8 @@
         <div class="auth-enlaces"><a href="/inicio">← Volver a la tienda</a></div>
         <h1>Bienvenido de nuevo</h1>
         <p class="auth-ayuda">Inicia sesión para continuar con tus compras profesionales.</p>
-        <div th:if="${error}" class="auth-ayuda" th:text="${error}"></div>
-        <form method="post" th:action="@{/autenticacion}">
+        <p id="auth-message" class="auth-ayuda" aria-live="polite" hidden></p>
+        <form id="login-form" method="post" th:action="@{/autenticacion}">
             <label for="correo">Correo electrónico</label>
             <input type="email" id="correo" name="correo" placeholder="nombre@clinica.mx" required>
             <label for="contrasenia">Contraseña</label>
@@ -47,6 +47,8 @@
         <p class="auth-ayuda">Al continuar aceptas los Términos de servicio y el Aviso de privacidad.</p>
     </section>
 </main>
+<script th:src="@{/storefront-api.js}" defer></script>
+<script th:src="@{/storefront-auth.js}" defer></script>
 </body>
 
 </html>

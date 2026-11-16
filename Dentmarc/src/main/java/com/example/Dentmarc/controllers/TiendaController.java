@@ -8,17 +8,13 @@ import com.example.Dentmarc.service.ProductoService;
 import com.example.Dentmarc.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -166,46 +162,13 @@ public class TiendaController {
     }
 
     @GetMapping("/carrito")
-    public String mostrarCarrito(HttpSession session, Model model) {
-        Map<Long, Integer> cantidades = obtenerCarrito(session);
-        List<Map<String, Object>> items = new ArrayList<>();
-        double subtotal = 0;
-        for (Map.Entry<Long, Integer> entry : cantidades.entrySet()) {
-            Producto producto = productoService.obtenerProductoPorId(entry.getKey());
-            if (producto == null) {
-                continue;
-            }
-            int cantidad = Math.min(entry.getValue(), producto.getCantidad());
-            if (cantidad <= 0) {
-                continue;
-            }
-            Map<String, Object> item = new LinkedHashMap<>();
-            item.put("producto", producto);
-            item.put("cantidad", cantidad);
-            item.put("total", producto.getPrecio() * cantidad);
-            items.add(item);
-            subtotal += producto.getPrecio() * cantidad;
-        }
-        model.addAttribute("items", items);
-        model.addAttribute("subtotal", subtotal);
-        model.addAttribute("totalProductos", cantidades.values().stream().mapToInt(Integer::intValue).sum());
+    public String mostrarCarrito() {
         return "carrito";
     }
 
     @GetMapping("/cuenta")
-    public String mostrarCuenta(HttpSession session, Model model, RedirectAttributes redirectAttributes) {
-        Usuario usuario = usuarioActual(session);
-        if (usuario == null) {
-            redirectAttributes.addFlashAttribute("error", "Inicia sesión para ver tu cuenta.");
-            return "redirect:/login";
-        }
-        model.addAttribute("usuario", usuario);
+    public String mostrarCuenta() {
         return "cuenta";
-    }
-
-    private Usuario usuarioActual(HttpSession session) {
-        Object id = session.getAttribute(USUARIO_SESION);
-        return id instanceof Long ? usuarioService.obtenerUsuarioPorId((Long) id) : null;
     }
 
     @SuppressWarnings("unchecked")
